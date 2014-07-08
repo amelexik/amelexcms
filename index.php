@@ -1,6 +1,7 @@
 <?php
 session_start();
 error_reporting(E_WARNING || E_ERROR);
+echo "olol";
 //error_reporting(E_ALL);
 //phpinfo();
 //error_reporting(0);
