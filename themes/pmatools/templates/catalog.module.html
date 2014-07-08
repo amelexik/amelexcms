@@ -1,0 +1,197 @@
+<link href="{$theme_path}css/catalog.module.css" rel="stylesheet" type="text/css" />
+
+<a style="display:none" href="/cartoverlay/?back={$smarty.server.REQUEST_URI}" id="fancyClick">cartoverlay</a>
+<a style="display:none" id="clearCart" href="#">clearCart</a>
+<a style="display:none" href="#" id="getCartCount">getCartCount</a>
+<a style="display:none" href="#" id="getCartTotalPrice">getCartTotalPrice</a>
+
+<div id="catalog">
+{if $app->module.mode}
+	{if $app->module.mode == "show_categories" ||  $app->module.mode == "show_sub_categories"}
+		
+		{if $categories}
+			
+			{if $app->module.mode == "show_categories"}
+				<h1>{$app->constants.catalog.zaglavie_glavnoj_stranicy}</h1>
+			{/if}
+			
+			<div class="categories">
+				{assign var=iteration value=1}
+				{foreach from=$categories item=category}
+				<div class="category {if $iteration % 4 == 1}first{/if} {if $iteration % 4 == 0}last{/if}">
+					<a href="{$category.url}" title="категория: {$category.title}">
+						<div class="category_content" {if $category.category_image}style="background:#ccc url({$smarty.const.CATALOG_CATEGORIES_IMAGE_PATH}{$category.category_image}) no-repeat center center;"{/if}>
+							<div class="category_arrow"></div>
+						</div><!-- .category_content -->
+					</a>
+					<div class="category_title">
+						<table width="100%" cellspacing="0" cellpadding="0" border="0">
+							<tr><td height="46" valign="middle" align="center"><a href="{$category.url}">{$category.title}</a></td></tr>
+						</table>
+					</div><!-- .category_title -->
+				</div><!-- .category -->
+				{if $iteration % 4 == 0}<div class="hr clear"></div>{/if}
+				{assign var=iteration value=$iteration+1}
+				{/foreach}
+				
+				<div class="clear"></div><!-- .clear -->
+				
+			</div><!-- .categories -->
+			
+		{/if}
+	
+	{/if}
+	{if $app->module.mode == "show_products"}
+			<h1>Продукты</h1>
+			<div class="data_table_container">
+				<table class="table2" id="productsTable" width="100%">
+					<thead>
+						<tr>
+							<th width="1%">#</th>
+							<th width="400">Название</th>
+							<th width="1%">Валюта</th>
+							<th width="1%">Цена</th>
+							<th width="1%"></th>
+						</tr>
+					</thead>
+					<tbody>
+					{if $products}
+						{$num=1}
+						{foreach from=$products item=product}
+							<tr>
+								<td align="center">{$num}</td>
+								<td><a href="{$product.url}">{$product.title}</a></td>
+								<td align="center">{*$product.currency*}грн.</td>
+								<td align="center">{$product.price}</td>
+											{*
+											[id] => 164
+											[item_id] => 12703
+											[category_master_id] => 31630
+											[eurocode] => 0
+											[currency] => EUR
+											[trade_price] => 7.00
+											[retail_price] => 9.00
+											[title] => Гель для установки датчиков «Sensor Tack 1»
+											[translit] => gel-dlya-ustanovki-datchikov-sensor-tack-1
+											[url] => product-gel-dlya-ustanovki-datchikov-sensor-tack-1/
+											*}
+								<td>
+								{if $product.inCart}
+								<a class="toCart added"></a>
+								{else}
+								<a rel="basketIco" class="toCart" 
+										item_id="{$product.item_id}" 
+										category_master_id="{$product.category_master_id}" 
+										eurocode="{$product.eurocode}" 
+										articul="{$product.articul}" 
+										currency="{$product.currency}" 
+										trade_price="{$product.trade_price}" 
+										retail_price="{$product.retail_price}" 
+										price="{$product.price}" 
+										item_title="{$product.title}"
+										></a>
+								{/if}
+										
+								</td>
+							</tr>
+						{assign var='num' value=$num+1}
+						{/foreach}
+					{/if}
+					</tbody>
+				</table>
+			</div><!-- .data_table_container -->
+	
+	{/if}
+	{if $app->module.mode == "show_product"}
+		<h1>{$product_data.title}</h1>
+		
+{*
+<p><div class="purchase_button"><a href="{$smarty.server.REQUEST_URI}?gAction=buyProduct&product_id=456454" class="">купить &raquo;</a></div><!-- .purchase_button --></p>
+														
+*}								
+		
+		<div class="product">
+		
+		<p>
+			<table class="product_Pic_and_Data">
+				<tr>
+					<td class="product_pic_TD">
+						<div class="product_pic">
+							{if $product_data.start_photo}
+								<img id="product_large_pic" src="{$smarty.const.CATALOG_PRODUCTS_IMAGE_PATH}300x/{$product_data.start_photo.file}" />
+							{else}
+								<table class="no_product_photo"><tr><td>Фото отсутствует</td></td></table>
+							{/if}
+						</div><!-- .product_pic -->
+						<p>цена:<span style="font-size:18px; font-weight:bold; color:#666">{$product_data.price}</span> грн.</p>
+						<p>
+							<div class="purchase_button">
+								<a rel="basketIco" class="toCart" 
+										item_id="{$product_data.item_id}" 
+										category_master_id="{$product_data.category_master_id}" 
+										eurocode="{$product_data.eurocode}" 
+										articul="{$product_data.articul}" 
+										currency="{$product_data.currency}" 
+										trade_price="{$product_data.trade_price}" 
+										retail_price="{$product_data.retail_price}" 
+										price="{$product_data.price}" 
+										item_title="{$product_data.title}"
+										>купить</a>
+							</div><!-- .purchase_button -->
+						</p>
+					</td><!-- .product_pic_TD -->
+					
+					<td class="product_info_TD">
+						<ul>
+							<li>Название товара: <b>{$product_data.title}</b></li>
+							<li>цена: <b style="font-size:16px">{$product_data.price} грн.</b></li>
+							<li>еденицы измерения: <b>{$product_data.units}</b></li>
+							{if $product_data.eurocode != " "}<li>еврокод: <b>{$product_data.eurocode}</b></li>{/if}
+							{if $product_data.articul != " "}<li>артикул: <b>{$product_data.articul}</b></li>{/if}
+							{if $product_data.meta_description != ""}<li>описание: <b>{$product_data.meta_description}</b></li>{/if}
+						</ul>
+					</td><!-- .product_info_TD -->
+				</tr>
+				
+				
+			</table>
+		</p>
+		
+		
+		{if $product_data.photos}
+		<h2>Фото:</h2>
+		
+		
+		<p>
+			<div class="product_pics_thumbs">
+			
+				{foreach from=$product_data.photos item=photo}
+					{* <a class="thumb" filename="{$photo.file}" path_300x="{$smarty.const.CATALOG_PRODUCTS_IMAGE_PATH}300x/" href="#" style="background:#ccc url({$smarty.const.CATALOG_PRODUCTS_IMAGE_PATH}100x/{$photo.file}) no-repeat center center"></a> *}
+					<a title="{$product_data.title}" class="thumb" filename="{$photo.file}" path_300x="{$smarty.const.CATALOG_PRODUCTS_IMAGE_PATH}300x/" href="{$smarty.const.CATALOG_PRODUCTS_IMAGE_PATH}300x/{$photo.file}" style="background:#ccc url({$smarty.const.CATALOG_PRODUCTS_IMAGE_PATH}100x/{$photo.file}) no-repeat center center"></a>
+				{/foreach}
+				
+				<div class="clear"></div>
+
+			</div>
+		</p>
+		{/if}
+		
+		
+		</div><!-- .product -->
+		
+		{if $other_products}
+		<h2>Другие товары из этой категории:</h2>
+		<ul>
+			{foreach from=$other_products item=item key=key}
+				<li><a href="{$item.url}">{$item.title}</a></li>
+			{/foreach}
+		</ul>
+		{/if}
+	{/if}
+{/if}
+
+{if $static_content}
+<div style="margin:10px 0">{$static_content}</div>
+{/if}
+
+</div><!-- #catalog -->

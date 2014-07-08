@@ -1,0 +1,32 @@
+<div class="float_left user_block" id="loginBlock" style="width:200px">
+	<div class="header">{if $smarty.session.user.is_logged == true}Привет <b>{$smarty.session.user.name}</b>{else}авторизация{/if}</div>
+	{if $smarty.session.user.is_logged == true}
+	<div>
+		{if $add->editProfileUrl}<p><a href="{$app->editProfileUrl}">Редактировать профиль</a></p>{/if}
+		<p><a href="?getAction=logout">выход</a></p>
+	</div>
+	{else}				
+	<form method="post">
+		<table class="table" width="185">
+			<tr>
+				<td><label class="label" for="login_input">логин:</label></td>
+				<td align="right"><input class="input" type="text" name="login" id="login_input" /></td>
+			</tr>
+			<tr>
+				<td><label class="label" for="password_input">пароль:</label></td>
+				<td align="right"><input class="input" type="password" name="password" id="password_input" /></td>
+			</tr>
+			<tr>
+				<td align="right" colspan="2" style="padding:3px 0 0 0">
+				
+				<a class="float_left" id="register_link" href="{$app->registrationPageUrl}">регистрация</a><!-- a href="#" class="float_righ button" id="login_submit">вход</a --> 
+				{* <a class="float_left" id="regPopup" href="#">регистрация</a><!-- a href="#" class="float_righ button" id="login_submit">вход</a -->*}
+				
+				<button class="float_righ button" id="login_submit" type="submit">вход</button>
+				</td>
+			</tr>
+		</table>
+		<input type="hidden" name="postAction" value="authorization" />
+	</form>
+	{/if}
+</div><!-- # login -->

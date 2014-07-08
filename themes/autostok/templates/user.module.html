@@ -1,0 +1,54 @@
+
+
+{if $app->module.mode == '' || $app->module.mode == 'registration'}
+	{capture name='h1'}{$app->constants.reg_form.page_header_reg}{/capture}
+	{capture name='submit_title'}{$app->constants.reg_form.page_header_reg}{/capture}
+	{capture name='uContent'}
+	<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+	{/capture}
+{/if}
+
+{if $app->module.mode == 'editprofile'}
+	{capture name='h1'}{$app->constants.reg_form.page_header_editprofile}{/capture}
+	{capture name='submit_title'}{$app->constants.reg_form.page_header_editprofile}{/capture}
+{/if}
+
+
+
+
+
+{if $app->module.mode == '' || $app->module.mode == 'registration' || $app->module.mode == 'editprofile'}
+	<h1>{$smarty.capture.h1}</h1>
+	{if $smarty.capture.uContent}<p>{$smarty.capture.uContent}</p>{/if}
+	<div>{include file="registration_form.html"}</div><!-- container -->
+{/if}
+
+{if $app->module.mode == 'registrationfinish'}
+
+<h1>Регистрация завершена</h1>
+<div class="info_block">
+		<p>Регистрация на сайте <b>{$smarty.server.http_host}</b> успешно пройдена.</p>
+		<p>Теперь вы можете ввойти на сайт через ниже поданую фому:</p>
+</div>
+<br /><br />
+<div class="container">
+	<form method="post" class="form" action="/">
+		<input type="hidden" name="postAction" value="authorization" />
+		<table width="300">
+			<tr>
+				<td width="1%"><label for="login1">ваш логин:</label></td>
+				<td><input type="text" name="login" id="login1" /></td>
+			</tr>
+			<tr>
+				<td><label for="password1">пароль:</label></td>
+				<td><input type="password" name="password" id="password1" /></td>
+			</tr>
+			<tr>
+				<td width="1%" align="left"></td>
+				<td align="right"><button class="button">ввойти &raquo;</button></td>
+			</tr>
+		</table>
+	</form>
+</div>
+
+{/if}

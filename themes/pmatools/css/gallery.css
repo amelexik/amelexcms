@@ -1,0 +1,42 @@
+#gallery
+{
+}
+		#gallery .photoalbum
+		{
+			margin:10px 0;
+		}
+		#gallery .photoalbum_title
+		{
+		}
+		#gallery .photoalbum_content
+		{
+		}
+		#gallery .clear
+		{
+			clear:both;
+		}
+		
+		#gallery .photo
+		{
+			float:left;
+			width:200px;
+			height:200px;
+			border:#012C9C 1px solid;
+			margin:15px 0 15px 33px;
+		}
+		#gallery .photo.first{margin-left:0}
+		#gallery .photo.last{margin-left:0;float:right;}
+				
+				#gallery .photo .photo_image
+				{
+					height:180px;
+				}
+				#gallery .photo .photo_title
+				{
+					height:20px;
+					line-height:20px;
+					text-align:center;
+					font-weight:bold;
+					background:#012C9C;
+					color:white;
+				}

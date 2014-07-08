@@ -1,0 +1,40 @@
+<div id="articles">
+{if $articles}
+	{foreach from=$articles item=articleItem}
+	<div class="article">
+		<div class="article-header">{$articleItem.name}</div><!-- .article-header -->
+		<div class="article-content">{$articleItem.preview}</div><!-- .article-content -->
+		<div class="article-footer">
+			<div class="article-footer-right">
+				<a href="{$articleItem.url}">{$app->constants.articles.label_read_more} &raquo;</a>
+			</div><!-- .article-footer-right -->
+			<div class="article-footer-left">
+				<span>{$articleItem.add_date}</span>
+			</div><!-- .article-footer-left -->
+			<div class="article-footer-clear"></div><!-- .article-footer-clear -->
+		</div><!-- .article-footer -->
+	</div><!-- .article -->
+	{/foreach}
+	
+	{if $pageLister}<div class="pageLister">{$pageLister}</div><!-- #pageLister -->{/if}
+	
+{else}
+	{if $article}
+	<div class="article">
+		<div class="article-header">{$article.name}</div><!-- .article-header -->
+		<div class="article-content">{$article.content}</div><!-- .article-content -->
+		<div class="article-footer">
+			<div class="article-footer-right">
+				
+			</div><!-- .article-footer-right -->
+			
+			<div class="article-footer-left">
+				<a href="{$back_url}">&laquo; {$app->constants.articles.label_back_url}</a>
+			</div><!-- .article-footer-left -->
+			
+			<div class="article-footer-clear"></div><!-- .article-footer-clear -->
+		</div><!-- .article-footer -->
+	</div><!-- .article -->	
+	{/if}
+{/if}
+</div>

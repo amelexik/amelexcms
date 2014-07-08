@@ -1,0 +1,73 @@
+<form method="post">
+	<table class="form-table">
+		<tr>
+			<td width="200"><label for="name">Имя:*</label></td>
+			<td><input type="text" name="name" id="name" value="{$userData.name}" /></td>
+		</tr>
+		<tr>
+			<td><label for="login">Логин:*</label></td>
+			<td><input type="text" name="login" id="login" value="{$userData.login}" /></td>
+		</tr>
+		<tr>
+			<td><label for="city">Город:*</label></td>
+			<td><input type="text" name="city" id="city" value="{$userData.city}" /></td>
+		</tr>
+		<tr>
+			<td><label for="phone_num">Номер телефона:*</label></td>
+			<td><input type="text" name="phone_num" id="phone_num" value="{$userData.phone_num}" /></td>
+		</tr>
+		<tr>
+			<td><label for="costumer_type">Тип клиента:*</label></td>
+			<td>
+				<select name="costumer_type" id="costumer_type">
+					<option {if $userData.costumer_type == "retail_buyer"} selected="selected" {/if} value="retail_buyer">розничный покупатель</option>
+					<option {if $userData.costumer_type == "legal_entity"} selected="legal_entity" {/if} value="legal_entity">юридическое лицо</option>
+					<option {if $userData.costumer_type == "individual"} selected="individual" {/if} value="individual">физичиское лицо</option>
+				</select>			
+			</td>
+		</tr>
+		<tr>
+			<td><label for="user_price">Цена продукции для клиента:*</label></td>
+			<td>
+				<select name="user_price" id="user_price">
+					<option {if $userData.user_price == "trade_price"} selected="selected" {/if} value="trade_price">Оптовая</option>
+					<option {if $userData.user_price == "retail_price"} selected="selected" {/if} value="retail_price">Розничная</option>
+				</select>
+			</td>
+		</tr>
+		{if $userData.costumer_type == "legal_entity"}
+		<tr>
+			<td><label for="company">company:*</label></td>
+			<td><input type="text" name="company" id="company" value="{$userData.company}" /></td>
+		</tr>
+		{/if}
+		<tr>
+			<td><label for="password">Пароль:*</label></td>
+			<td><input type="password" name="password" id="password" value="" /></td>
+		</tr>
+		<tr>
+			<td><label for="email">Електронная почта:*</label></td>
+			<td><input type="text" name="email" id="email" value="{$userData.email}" /></td>
+		</tr>
+		<tr>
+			<td><label for="active">Статус:*</label></td>
+			<td>
+				<select name="active">
+					<option {if $userData.active == 'y'}selected="selected"{/if} value="y">активен</option>
+					<option {if $userData.active == 'n'}selected="selected"{/if} value="n">неактивен</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td><label for="email"><b>Скидка на продукцию %:</b></label></td>
+			<td><input type="text" name="discount" id="discount" value="{$userData.discount}" /></td>
+		</tr>
+		<tr>
+			<td>
+				{if $userData.id > 0}<input type="hidden" name="pAction" value="update_user" />{else}<input type="hidden" name="pAction" value="add_user" />{/if}
+				<input type="hidden" name="user_id" value="{$smarty.get.user_id}" />
+			</td>
+			<td><button class="button" type="submit">{if $userData.id > 0}Отправить{else}Добавить{/if}</button></td>
+		</tr>
+	</table>
+</form>

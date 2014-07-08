@@ -1,0 +1,50 @@
+<p><a class="button" onclick="history.back()">&laquo; назад </a> <a class="button" href="?section={$admin->section}&mode=add_edit_user">добавить пользователя</a></p>
+{if !$admin->mode}
+<p>
+	<table class="table">
+		<thead>
+			<tr>
+				<td colspan="2">Статистика</td>
+			</tr>
+		</thead>
+		<tbody>
+		<tr>
+			<td width="1%">Всего пользователей на сайте:</td>
+			<td><b>{$usersCount}</b></td>
+		</tr>
+		<tr>
+			<td>Откуда о вас узнали пользователи:</td>
+			<td>
+				{foreach from=$stats item=item key=key}
+					<li>{$item.title} - <b>{$item.count}</b></li>
+				{/foreach}
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</p>
+<table class="table" width="100%">
+	<thead>
+		<tr>
+			<td width="1%">#</td>
+			<td>Имя пользователя</td>
+			<td width="1%"></td>
+		</tr>
+	</thead>
+	<tbody>
+		{foreach from=$users item=user}
+		<tr class="display-{$user.active}">
+			<td>{$user.id}</td>
+			<td>
+				<div>{$user.name}</div>
+			</td>
+			<td><a title="" class="edit" href="?section={$admin->section}&mode=add_edit_user&user_id={$user.id}"></a></td>
+			{* <td><a title="" class="drop" href="?section={$admin->section}&gAction=dropUser&user_id={$user.id}"></a></td> *}
+		</tr>
+		{/foreach}
+	</tbody>
+</table>
+{else}
+	{capture name='mode_file'}mode/{$admin->mode}.html{/capture}
+	{include file=$smarty.capture.mode_file}
+{/if}

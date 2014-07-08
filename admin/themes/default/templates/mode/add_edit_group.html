@@ -1,0 +1,18 @@
+<form method="post">
+	<table class="form-table">
+		<tr>
+			<td width="150"><label for="title"><b>Название групы</b></label></td>
+			<td><input type="text" name="item[title]" id="title" value="" /></td>
+		</tr>
+		<tr>
+			<td><label for="name">Системное название<br /><small class="grey">(латиницей без пробелов)</small></label></td>
+			<td><input type="text" name="item[name]" id="name" value="" /></td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<input type="hidden" name="pAction" value="add_group" />
+				<button class="button" type="submit">Добавить групу</button>			
+			</td>
+		</tr>
+	</table>
+</form>

@@ -1,0 +1,26 @@
+<p><a class="button" href="?section={$admin->section}&gAction=updateRate">синхронизировать курс валют</a></p>
+
+<p>
+	<table class="table" width="100%">
+		<thead>
+			<tr>
+				<td>NumCode</td>
+				<td>CharCode</td>
+				<td>Nominal</td>
+				<td>Name</td>
+				<td>Value</td>
+			</tr>
+		</thead>
+		<tbody>
+			{foreach from=$rate_of_currency item=item key=key}
+			<tr>	
+				<td>{$item.NumCode}</td>
+				<td>{$item.CharCode}</td>
+				<td>{$item.Nominal}</td>
+				<td>{$item.Name}</td>
+				<td>{$item.Value}</td>
+			</tr>
+			{/foreach} 
+		</tbody>
+	</table>
+</p>

@@ -1,0 +1,67 @@
+<h1>{$app->meta.title}</h1>
+
+{*
+<a style="display:none" href="/cartoverlay/" id="fancyClick" href="#"></a>
+<a style="display:none" id="clearCart" href="#"></a>
+<a style="display:none" id="getCartCount"></a>
+<a style="display:none" id="getCartTotalPrice"></a>
+*}
+
+
+<a style="display:none" href="/cartoverlay/?code={$smarty.get.code}" id="fancyClick"></a>
+<a style="display:none" id="clearCart" href="#"></a>
+<a style="display:none" id="getCartCount"></a>
+<a style="display:none" id="getCartTotalPrice"></a>
+
+
+<p>
+	<table width="100%" class="table2">
+		<thead>
+			<tr>
+				<td>Бренд</td>
+				<td>Номер детали</td>
+				<td>Наименование детали</td>
+				<td>Цена</td>
+				<td>Курс</td>
+				<td>Цена UAN</td>
+				<td>Код поставщика</td>
+				<td width="1%"></td>
+			</tr>
+		</thead>
+		<tbody>
+		{if $result}
+			{foreach from=$result item=item}
+			<tr>
+				<td>{$item.Brand}</td>
+				<td>{$item.Number}</td>
+				<td>{$item.Name}</td>
+				<td>{$item.Price} {$item.Currency}</td>
+				<td>{$item.rate}</td>
+				<td>{$item.ourPrice}</td>
+				<td>{$item.SupplierCode}</td>
+				<td align="center">
+					{if  $item.inCart}
+						<a class="toCart added"></a>
+					{else}
+						<a rel="basketIco" brand="{$item.Brand}" name="{$item.Name}" number="{$item.Number}" supplierCode="{$item.SupplierCode}" price="{$item.Price}" currency="{$item.Currency}" ourPrice="{$item.ourPrice}" weight="{$item.Weight}" class="toCart"></a>
+					{/if}
+				</td>
+			</tr>
+			{/foreach}
+		{else}
+		<tr>
+			<td colspan="12">
+				<p style="font-size:18px"><b>Деталь не найдена :/</b></p>
+				{* <p><img src="http://images.memegenerator.net/Trollface-dot-jpeg/File/18799/Trollface-dot-jpeg.jpg" border="1" /></p>
+				<p style="font-size:18px"><b>Сосните хуйцов!</b></p> *}
+			</td>
+		</tr>
+		{/if}
+		</tbody>
+	</table>
+</p>
+<p>
+	<form>
+		<input type="text" name="code" class="textInput" value="{$smarty.get.code}" /> <button class="button" class="button" type="submit">поиск по коду &raquo;</button>
+	</form>
+</p>

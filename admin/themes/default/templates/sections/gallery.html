@@ -1,0 +1,42 @@
+<p><a class="button" href="?section={$admin->section}&mode=add_edit_album&structure_master_id={$smarty.get.structure_master_id}">добавить  фотоальбом</a></p>
+{if $admin->mode == ''}
+<div id="langtabs">
+	<ul>
+		{foreach from=$admin->languages item=lang key=lang_id}
+			<li><a href="#lang-{$lang_id}">{$lang.title}</a></li>
+		{/foreach}
+	</ul>
+	
+	{foreach from=$admin->languages item=lang key=lang_id}
+	<div id="lang-{$lang_id}">
+		<table class="table" width="100%">
+			<thead>
+				<tr>
+					<td width="1%">#</td>
+					<td>Название альбома</td>
+					<td width="1%">date</td>
+					<td colspan="3" width="1%">date</td>
+				</tr>
+			</thead>
+			<tbody>
+			{$num=1}
+			{foreach from=$albums item=album}
+			<tr class="display-{$album.display}">
+				<td>{$num}</td>
+				<td>{$album.ext[$lang_id].title}</td>
+				<td><small>{$album.add_date|date_format:"%H:%M:%S"}<br />{$album.add_date|date_format:"%d.%b.%Y"}</small></td>
+				<td><a href="{$album.edit_photos_url}" class="edit"></a></td>
+				<td><a href="?section={$admin->section}&mode=add_edit_album&album_id={$album.id}&structure_master_id={$smarty.get.structure_master_id}" class="property"></a></td>
+				<td><a href="?section={$admin->section}&gAction=drop_album&album_id={$album.id}&structure_master_id={$smarty.get.structure_master_id}" class="drop"></a></td>
+			</tr>
+			{assign var='num' value=$num+1}
+			{/foreach}
+			</tbody>
+		</table>
+	</div>
+	{/foreach}
+</div>
+{else}
+	{capture name='mode_file'}mode/{$admin->mode}.html{/capture}
+	{include file=$smarty.capture.mode_file}
+{/if}

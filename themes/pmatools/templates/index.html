@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+	
+	<title>{$app->meta['title']}</title>
+	<meta name="description" content="{$app->meta['description']}" />
+	<meta name="keywords" content="{$app->meta['keywords']}" />
+	<meta name="language" content="{$app->current_lang['prefix']|upper}" />
+	<meta name="robots" content="all" />
+	<meta name="revisit-after" content="20 days" />
+	<meta name="distribution" content="global" />	
+	
+	<link href="{$theme_path}css/template.css" rel="stylesheet" type="text/css" />
+	<link href="{$theme_path}css/classes.css" rel="stylesheet" type="text/css" />
+	
+	<script type="text/javascript" src="{$theme_path}js/jquery-1.5.1.js" language="javascript"></script>
+
+	
+	<script type="text/javascript" src="/js/jquery/jqueryui/js/jquery-ui-1.8.9.custom.min.js"></script>
+	<!-- link href="{$theme_path}css/jqueryui/start/jquery-ui-1.8.11.custom.css" rel="stylesheet" type="text/css" / -->
+	<link href="{$theme_path}css/jqueryui/cupertino/jquery-ui-1.8.11.custom.css" rel="stylesheet" type="text/css" />
+	<!-- link href="/js/jquery/jqueryui/css/smoothness/jquery-ui-1.8.9.custom.css" rel="stylesheet" type="text/css" / -->
+
+	<script type="text/javascript" src="/js/jquery/jquery.cookie.js"></script>
+	<script type="text/javascript" src="/js/jquery/jquery.timers-1.2.js"></script>
+
+	<script type="text/javascript" src="/js/fancybox/fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+	<script type="text/javascript" src="/js/fancybox/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+	<link rel="stylesheet" type="text/css" href="/js/fancybox/fancybox/jquery.fancybox-1.3.4.css" media="screen" />
+	
+	<script type="text/javascript" src="{$theme_path}js/func.js" language="javascript"></script>
+
+</head>
+
+<body style="background:#ccdcec">
+
+<div id="wrapper">
+	
+	<div id="head">
+		
+		<div id="menu_and_icons">
+			
+			<div class="white">
+				
+				<div id="menu">
+					<table class="horizontal-menu">
+						<tr>
+							<td><a id="catalogButton" href="/">Каталог</a></td>
+							{foreach from=$mainNav item=mainNavItem key=key name=mainNavForeach}
+							<td><a class="{if $smarty.foreach.mainNavForeach.last}last {/if}{if $mainNavItem.id == $app->branchKeys[0]}current{/if}" href="{$mainNavItem.url}">{$mainNavItem.name}</a></td>
+							{/foreach}
+						</tr>
+					</table>
+				</div><!-- #menu -->
+				
+				<div id="icons">
+					<a href="/"><img src="{$theme_path}img/ico_home.gif" width="28" height="28" border="0" /></a>
+					<a href="/sitemap/"><img src="{$theme_path}img/ico_map.gif" width="28" height="28" border="0" /></a>
+					<a href="/feedback/"><img src="{$theme_path}img/ico_mail.gif" width="28" height="28" border="0" /></a>
+				</div><!-- #menu_and_icons -->
+				
+				<div class="clear"></div><!--.clear-->
+			</div><!-- .white -->
+		
+		</div><!-- #icons -->
+		
+		<div id="slogan_and_phone">
+		
+			<div id="slogan">
+				<span class="slogan_header">{$app->constants.general.slogan}</span>
+				<span>{$app->constants.general.slogan_strochka_2}</span>
+				<span>{$app->constants.general.slogan_strochka_3}</span>
+				<span>{$app->constants.general.slogan_strochka_4}</span>
+			</div><!-- #slogan -->
+			
+			<div id="phone">
+				{if $app->constants.general.phone_num_1 != ''}<span>{$app->constants.general.phone_num_1}</span>{/if}
+				{if $app->constants.general.phone_num_2 != ''}<span>{$app->constants.general.phone_num_2}</span>{/if}
+				{if $app->constants.general.phone_num_3 != ''}<span>{$app->constants.general.phone_num_3}</span>{/if}
+			</div><!-- #phone -->
+		
+		</div><!-- #slogan_and_phone -->
+		
+		<a href="/" id="logo"></a>
+		<div id="domain">{$smarty.server.SERVER_NAME}</div>
+		
+		{include file="login_block.html"}
+		{include file="cart_informer.html"}
+		
+	</div><!-- #head -->
+	
+	<div id="content">
+	
+		<div id="mainContent">
+		
+			{* <div>{include file='breadcrumbs.html'}</div> *}
+			
+			<div>
+				{if $app->error404 == 1}
+					{include file='404.html'}
+				{else}
+					{if $app->module.name}
+						{include file=$app->module.html_template}
+					{else}
+						{include file=$app->currentPage.html_template}
+					{/if}
+				{/if}
+			</div>		
+		
+		</div><!-- #mainContent -->
+		
+		<div id="sideContent">
+		
+			{if $sideNav}
+			<div class="block">
+				<div class="side_nav">
+					<div class="side_nav_title"><a href="/">каталог  продукции</a></div>
+					<ul>
+						{foreach from=$sideNav item=sideNavItem}
+						<li><a class="{if $sideNavItem.current == 1}current{/if}" href="{$sideNavItem.url}">{$sideNavItem.title}</a></li>
+						{/foreach}
+					</ul>
+				</div><!-- .side_nav -->
+			</div><!-- .block -->
+			{/if}
+			
+			{include file="banners.html"}
+		
+		</div><!-- #sideContent -->
+		
+		<div class="clear"></div>
+	
+	</div><!-- #content -->
+	
+	<div id="footer">
+	
+		<div id="footer_nav">
+			<div class="white">
+				<table class="horizontal-menu">
+					<tr>
+						<td><a id="catalogButton" href="/">Каталог</a></td>
+					{foreach from=$mainNav item=mainNavItem key=key name=mainNavForeach}
+						<td><a class="{if $smarty.foreach.mainNavForeach.last}last {/if}{if $mainNavItem.id == $app->branchKeys[0]}current{/if}" href="{$mainNavItem.url}">{$mainNavItem.name}</a></td>
+					{/foreach}
+					</tr>
+				</table>
+			</div><!-- .white -->
+		</div><!-- #footer_nav -->
+		
+		<div id="copyright">
+			<div id="copy" align="center">&copy; 2011. PMA TOOLS. Все  права  защищены.<br /><a href="http://www.metastudio.com.ua/ru/uslugi/sozdanie_i_reklama_veb-sajtov/razrabotka_veb-sajtov/" target="_blank">Разработка сайта Метастудия</a></div><!-- #copy -->
+		</div><!-- #copyright -->
+		
+		<div class="clear"></div><!-- .clear -->
+	
+	</div><!-- #footer -->
+	
+
+</div><!-- #wrapper -->
+{literal}
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30111698-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<!-- Yandex.Metrika counter -->
+<div style="display:none;"><script type="text/javascript">
+(function(w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter13165801 = new Ya.Metrika({id:13165801, enableAll: true, 
+
+webvisor:true});
+        }
+        catch(e) { }
+    });
+})(window, "yandex_metrika_callbacks");
+</script></div>
+<script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript" 
+
+defer="defer"></script>
+<noscript><div><img src="//mc.yandex.ru/watch/13165801" style="position:absolute; 
+
+left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+{/literal}
+</body>
+</html>

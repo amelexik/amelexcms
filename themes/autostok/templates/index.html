@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+	
+	<title>{$app->meta['title']}</title>
+	<meta name="description" content="{$app->meta['description']}" />
+	<meta name="keywords" content="{$app->meta['keywords']}" />
+	<meta name="language" content="{$app->current_lang['prefix']|upper}" />
+	<meta name="robots" content="all" />
+	<meta name="revisit-after" content="20 days" />
+	<meta name="distribution" content="global" />	
+	
+	<link href="{$theme_path}css/style.css" rel="stylesheet" type="text/css" />
+	<link href="{$theme_path}css/registration.css" rel="stylesheet" type="text/css" />
+	<link href="{$theme_path}css/articles.css" rel="stylesheet" type="text/css" />
+	
+	<script type="text/javascript" src="{$theme_path}js/jquery-1.5.1.js" language="javascript"></script>
+	<link rel="stylesheet" href="{$theme_path}js/nivo-slider/nivo-slider.css" type="text/css" media="screen" />
+	<script type="text/javascript" src="{$theme_path}js/nivo-slider/jquery.nivo.slider.pack.js"></script>
+
+	<script type="text/javascript" src="/js/jquery/jqueryui/js/jquery-ui-1.8.9.custom.min.js"></script>
+	<link href="/js/jquery/jqueryui/css/smoothness/jquery-ui-1.8.9.custom.css" rel="stylesheet" type="text/css" />
+
+	<script type="text/javascript" src="/js/jquery/jquery.cookie.js"></script>
+	<script type="text/javascript" src="/js/jquery/jquery.timers-1.2.js"></script>
+
+	<script type="text/javascript" src="/js/fancybox/fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+	<script type="text/javascript" src="/js/fancybox/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+	<link rel="stylesheet" type="text/css" href="/js/fancybox/fancybox/jquery.fancybox-1.3.4.css" media="screen" />
+	
+	{* <script type="text/javascript" src="/orphus/js/orphus.js" language="javascript"></script> *}
+	
+	<script type="text/javascript" src="{$theme_path}js/func.js" language="javascript"></script>
+	
+	
+	{if !$smarty.get.code}
+	<script type="text/javascript">
+	$(document).ready(function(){
+
+		// quick_search
+		$("#quick_search_query").focus(function(){
+			$(this).attr("value","");
+		});
+	
+		$("#quick_search_query").blur(function(){
+			var def_string = 'поиск по коду запчасти';
+			var cur_string = $(this).attr("value");
+			if (cur_string == ''){
+				$(this).attr("value",def_string);
+			}
+		});	
+	});
+	</script>
+	{/if}
+</head>
+
+<body>
+
+<div id="shadow-out">
+<div id="wrapper">
+	
+	<div id="head">
+		<table id="head-table" border="0">
+			<tr>
+				
+				<td width="190"><a id="logo" href="/">Autostok</a><!-- # logo --></td>
+				<td width="500">
+					<div id="slogan">{$app->constants.general.slogan}</div>
+				</td>
+				<td width="300" style="padding:0 10px 0 0">
+					<div id="phone"><span>(0432) </span>55-99-66</div>
+					<div id="icons">
+						<a href="/"><img src="{$theme_path}/img/ico_home.gif" /></a>
+						<a href="{$app->siteMapUrl}"><img src="{$theme_path}/img/ico_map.gif" /></a>
+						<a href="/kontakty/"><img src="{$theme_path}/img/ico_mail.gif" /></a>
+					</div>
+				</td>
+			
+			</tr>
+			<tr>
+				
+				<td>
+					<div id="quickSearch">
+						<form id="quickSearchForm" method="get" action="/searchbycode/">	
+							<input type="text" name="code" id="quick_search_query" value="{if $smarty.get.code}{$smarty.get.code}{else}поиск по коду запчасти{/if}" /><button type="submit" id="search_submit"></button>
+						</form>
+					</div>
+				</td>
+				<td valign="top"><div id="goVinCodeSearch"><a href="/produkciya/acura/acura-cl/">поиск по vin-коду</a></div></td>
+				<td></td>
+			
+			</tr>
+			<tr>
+				<td><div id="searchExample">например: <a id="codeExample">2330021010</a></div></td>
+				<td colspan="2">
+				
+				<div id="mainNav">
+					{if $treeMenu}
+					<table class="mainNav">
+						<tr>
+						{foreach from=$treeMenu item=treeMenuItem key=treeMenuItemKey name=treeMenuForeach}
+						{if $treeMenuItem.pid == 0}
+						<td>
+							<div class="relative">
+								<a id="item_{$treeMenuItem.id}" class="mainNavLink {if $treeMenuItem.id == $app->branchKeys[0]}current{/if} {if $smarty.foreach.treeMenuForeach.last}last{/if}" href="{$treeMenuItem.url}">{$treeMenuItem.name}</a>
+								{if $treeMenuItem.sub}
+								<div class="dropDown level_1" id="item_{$treeMenuItem.id}_level_1" style="display:none;">
+									{foreach from=$treeMenuItem.sub item=treeMenuSubItem_lev1}
+									<div class="item lev1" id="item_lev1_{$treeMenuSubItem_lev1.id}">
+										<a href="{$treeMenuSubItem_lev1.url}">{$treeMenuSubItem_lev1.name}</a>
+										{if $treeMenuSubItem_lev1.sub}
+										<div class="level_2_container">
+											<div class="dropDown level_2" id="item_lev1_{$treeMenuSubItem_lev1.id}_sub" style="display:none">
+												{foreach from=$treeMenuSubItem_lev1.sub item=treeMenuSubItem_lev2}
+												<div class="item lev2"><a href="{$treeMenuSubItem_lev2.url}">{$treeMenuSubItem_lev2.name}</a></div><!-- .item -->
+												{/foreach}
+											</div><!-- .dropDown .level_2 -->
+										</div><!-- .level_2_container -->
+										{/if}
+									</div><!-- .item -->
+									{/foreach}
+								</div><!-- .dropDown level_1 -->
+								{/if}
+							</div>
+						</td>
+						{/if}
+						{/foreach}
+						</tr>
+					</table>
+					{/if}	
+					
+				</div><!-- #mainNav -->				
+				
+				</td>
+			</tr>
+		</table>
+	</div><!-- #head -->
+	
+	<div id="content">	
+		
+		<div id="userPanel">
+			{include file="user_login_block.html"}
+			{include file="cart_informer.html"}
+		</div><!-- #userPanel -->
+		
+		
+		
+		{if $app->siteStart}
+		<div id="slider" style="height:257px;overflow:hidden">
+			<img src="/upload/images/nivo-slider/1.jpg" width="1003" border="0" />
+			<img src="/upload/images/nivo-slider/2.jpg" width="1003" border="0" />
+			<img src="/upload/images/nivo-slider/3.jpg" width="1003" border="0" />
+		</div>
+		{/if}
+		
+		
+		<div>{include file='breadcrumbs.html'}</div>
+		
+		<div id="mainContent">
+			
+			<div class="content">
+			
+					<div>
+						{if $app->error404 == 1}
+							{include file='404.html'}
+						{else}
+							{if $app->module.name}
+								{include file=$app->module.html_template}
+							{else}
+								{include file=$app->currentPage.html_template}
+							{/if}
+						{/if}
+					</div>
+				
+				{* не выводим три колинки (Статьи...новости) под контентом если страничка является: корзиной, запросом по вин-коду*}
+				{if $app->currentPage.template == "page"}
+				{*
+				<p>
+				<table class="three_cols">
+					<tr>
+						<td class="col" width="30%">
+							<p class="header">&raquo; Статьи</p>
+							<ul>
+								{foreach from=$articlesMenu item=articleItem}
+									<li><a href="{$articleItem.url}">{$articleItem.name}</a></li>
+								{/foreach}
+							</ul>
+						</td>
+						
+						<td class="col_separator">&nbsp;</td>
+						
+						<td class="col" width="30%">
+							<p class="header">&raquo; Новости</p>
+							<p>ALFA ROMEO АЛЬФА3  РОМЕО 147 03 2.0TS МКППМ ЕХАНИЧЕСКАЯ 4545555  545КОРОБКА ПЕРЕДАЧ 23 код запчасти 16017</p>
+							<p>Итак, несколько апрапр слов о системе "EGR" (Exhaust Gas Recirculation), чтапрапро в переводе ознчает "рециркуляция отработавших газов".</p>
+							<hr />
+							<p align="center"><img src="{$theme_path}/img/col_pic_1.jpg" /></p>
+						</td>
+						
+						<td class="col_separator">&nbsp;</td>
+						
+						<td class="col" width="30%">
+							<p class="header">&raquo; Новости</p>
+							<p>ALFA ROMEO АЛЬФА3  РОМЕО 147 03 2.0TS МКППМ ЕХАНИЧЕСКАЯ 4545555  545КОРОБКА ПЕРЕДАЧ 23 код запчасти 16017</p>
+							<p>Итак, несколько апрапр слов о системе "EGR" (Exhaust Gas Recirculation), чтапрапро в переводе ознчает "рециркуляция отработавших газов".</p>
+							<hr />
+							<p align="center"><img src="{$theme_path}/img/col_pic_2.jpg" /></p>
+						</td>
+					</tr>
+				</table>
+				</p>
+				*}
+				{/if}
+			
+			</div><!-- .content -->
+		</div><!-- #mainContent -->
+	
+	</div><!-- #content -->
+	
+	<div id="footer">
+		
+		<div id="footerNav">
+		{foreach from=$mainMenu item=mainMenuItem key=key name=footerNavigation}
+			<a {if $app->branchKeys}{if $mainMenuItem.id == $app->branchKeys[0]}class="current"{/if}{/if} title="{$mainMenuItem.name}" href="{$mainMenuItem.url}">{$mainMenuItem.name}</a>{if !$smarty.foreach.footerNavigation.last} | {/if}
+		{/foreach}
+		</div><!-- #footerNav -->
+		
+		<div id="copy">
+			<script type="text/javascript" src="/orphus/orphus.js"></script>
+			<a rel="nofollow" href="http://orphus.ru" id="orphus" target="_blank"><img align="middle" alt="Система Orphus" src="/orphus/orphus.gif" border="0" /></a>
+			{$app->constants.general.copyright}
+			 <a href="http://www.metastudio.com.ua/ru/uslugi/sozdanie_i_reklama_veb-sajtov/razrabotka_veb-sajtov/" target="_blank">Разработка сайта Метастудия</a>
+		</div>
+		
+	</div><!-- .footer -->
+
+</div><!-- #wrapper -->
+</div><!-- #shadow-out -->
+
+
+</body>
+
+</html>

@@ -1,0 +1,164 @@
+<div id="order1-tabs">
+<ul>
+	<li><a href="#tab-1">Отправка заказа на почту</a></li>
+	<li><a href="#tab-2">Онлайн-чат заказ</a></li>			
+</ul>
+<div id="tab-1">
+	<div class="container">	
+		<div class="float_left" style="width:550px;">
+			<form method="POST" id="orderByVinCode" class="user_form">
+					
+					{if $queryStatus == "completed"}
+						
+							<h1 style="font-size:11px;">Ваш запрос успешно отправлен!</h1>
+							<p>Ваш запрос успешно отправлен!</p>
+							<p>В течении 30 минут с Вами свяжеться наш менеджер</p>
+							<p>Ожидайте.</p>
+					
+					{else}	
+					
+					
+							{if $errors}
+								<div class="alert_block">
+									<p><b>В прецессе отправки заказа обнаружены ошибки:</b></p>
+									<ul>
+										{foreach from=$errors item=error_info key=error_key}
+										<li>{$error_info}</li>
+										{/foreach}
+									</ul>
+								</div><!-- .alert_block -->
+							{/if}	
+							
+							<div class="field">
+								<div class="label"><label for="brand">{$app->constants.chat_form.label_4}:*</label></div><!-- .label -->
+								<div class="input">
+									<select id="brand" name="brand">
+										<option value="">...</option>
+										{foreach from=$brands item=brand key=key}
+										<option {if $app->branchKeys[1] == $brand.id}selected=selected{/if} value="{$brand.id}">{$brand.name}</option>
+										{/foreach}
+									</select>
+								</div><!-- input -->
+							</div><!-- field -->
+
+							<div class="field">
+								<div class="label"><label for="model">{$app->constants.chat_form.label_5}:*</label></div><!-- .label -->
+								<div class="input">
+									<select id="model" name="model">
+										<option value="">...</option>
+									</select>
+								</div><!-- input -->
+							</div><!-- field -->
+
+							<div class="field">
+								<div class="label"><label for="year">{$app->constants.chat_form.label_6}:*</label></div><!-- .label -->
+								<div class="input">
+									<select name="year" id="year">
+										{$years}
+									</select>
+								</div><!-- input -->
+							</div><!-- field -->					
+
+							<div class="field">
+								<div class="label"><label for="engine_type">{$app->constants.chat_form.label_8}:*</label></div><!-- .label -->
+								<div class="input">
+									<select name="engine_type" id="engine_type">
+										<option value="">...</option>
+										<option>Бензин</option>
+										<option>Гибрид</option>
+										<option>Дизель</option>
+									</select>
+								</div><!-- input -->
+							</div><!-- field -->
+
+							<div class="field">
+								<div class="label"><label for="carCase">{$app->constants.chat_form.label_9}:*</label></div><!-- .label -->
+								<div class="input">
+									<select name="carCase" id="carCase">
+										<option value="">...</option>
+										<option>Седан</option> 
+										<option>Хетчбэк</option> 
+										<option>Купе</option> 
+										<option>Универсал</option> 
+										<option>Минивэн</option> 
+										<option>Микроввэн</option> 
+										<option>Внедорожник</option> 
+										<option>Пикап</option> 
+										<option>Кабриолет</option> 
+										<option>Фургон</option> 
+										<option>Родстер</option> 
+										<option>Лимузин</option>
+									</select>
+								</div><!-- input -->
+							</div><!-- field -->					
+
+							<div class="field">
+								<div class="label"><label for="engine_v">{$app->constants.chat_form.label_7}:*</label></div><!-- .label -->
+								<div class="input"><input type="text" name="engine_v" id="engine_v" value="{$smarty.post.engine_v}" /></div><!-- input -->
+							</div><!-- field -->
+
+
+							<div class="field">
+								<div class="label"><label for="vin">{$app->constants.chat_form.label_1}:*</label></div><!-- .label -->
+								<div class="input"><input type="text" name="vin" id="vin" size="2" value="{$smarty.post.vin}" /></div><!-- input -->
+							</div><!-- field -->
+
+
+							<div class="field">
+								<div class="label"><label for="phoneNum">{$app->constants.chat_form.label_2}:*</label></div><!-- .label -->
+								<div class="input"><input type="text" name="phoneNum" id="phoneNum" value="{$smarty.post.phoneNum}" /></div><!-- input -->
+							</div><!-- field -->
+
+
+							<div class="field">
+								<div class="label"><label for="email">{$app->constants.chat_form.label_3}:*</label></div><!-- .label -->
+								<div class="input"><input type="text" name="email" id="email" value="{if $smarty.post.email}{$smarty.post.email}{else}{$smarty.session.user.email}{/if}" /></div><!-- input -->
+							</div><!-- field -->
+
+
+							<div class="field">
+								<div class="label"><label for="part">{$app->constants.chat_form.label_10}:*</label></div><!-- .label -->
+								<div class="input"><input type="text" name="part" id="part" value="{$smarty.post.part}" /></div><!-- input -->
+							</div><!-- field -->
+
+
+							<div class="field">
+								<div class="label"><label for="comments">{$app->constants.chat_form.label_11}:</label></div><!-- .label -->
+								<div class="input"><textarea id="comments" name="comments" style="height:100px">{$smarty.post.comments}</textarea></div><!-- input -->
+							</div><!-- field -->
+
+							<div class="field">
+								<input type="hidden" name="postAction" value="order_by_vincode" />
+								<button type="submit" class="button">Отправить заказ</button>
+							</div><!-- field -->
+					{/if}{* if $queryStatus == "completed" *}
+
+			</form>
+		</div><!-- .float_left -->
+		
+		<div class="float_right" style="width:350px;">
+			<h3>Что такое VIN код (номер кузова)?</h3>
+			<p>VIN код (номер кузова) - это заводской номер транспортного средства. В нем содержится подробная информация о всех технических характеристиках автомобиля.</p>
+			
+			<h3>Для чего нужно указывать VIN код?</h3>
+			<p>VIN код необходим для того, чтобы менеджеры, нашей компании могли безошибочно определить каталожный номер необходимой Вам детали.</p>
+			
+			<h3>Просьба правильно описывать каждую деталь</h3>
+			<p><span style="color:red"><b>Неправильно</b>: передняя стойка</span>
+			<br /><span style="color:green"><b>Правильно</b>: передняя правая амортизационная стойка</span>
+			 
+			<br />Номер кузова (VIN код) находится  в техпаспорте вашего автомобиля в графе: 
+			<br /><b>"Номер шасси (кузова, рамы)"</b>
+			<br /><br /><img src="/upload/images/vin-img.jpg" style="border:#000 1px solid" />
+			</p>
+		</div><!-- .float_right -->
+		
+		<div style="clear:both; font-size:1px"></div>
+	</div><!-- .container -->
+</div>
+<div id="tab-2">
+	<p>
+		{* <a href="https://siteheart.com/webconsultation/100057?byhref=1" target="siteheart_sitewindow_100057" onclick="o=window.open;o('https://siteheart.com/webconsultation/100057', 'siteheart_sitewindow_100057', 'width=550,height=400,top=30,left=30,resizable=yes'); return false;"><img src="http://siteheart.com/webindicator/image/1301401417?ent=100057&company=100057" width="955"  border="0" alt="SiteHeart" /></a> *}
+		<a href="https://siteheart.com/webconsultation/100057?byhref=1" target="siteheart_sitewindow_100057" onclick="o=window.open;o('https://siteheart.com/webconsultation/100057', 'siteheart_sitewindow_100057', 'width=550,height=400,top=30,left=30,resizable=yes'); return false;"><img src="http://autostok.com.ua/themes/autostok/img/4at.gif"  border="0" alt="SiteHeart" /></a>
+	</p>
+</div>

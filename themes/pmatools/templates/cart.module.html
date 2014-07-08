@@ -1,0 +1,343 @@
+<div id="cart">
+{if $app->module.mode == 'order'}
+	<h1>{$app->constants.cart.zaglavie_stranicy_1}</h1>
+	
+	<p>
+	<table class="table2 cart-table">
+		<thead>
+			<tr>
+				<td width="1%">#</td>
+				<td>Наименование детали</td>
+				<td width="1%">Цена</td>
+				<td width="1%">кол.</td>
+				<td width="1%">Сумма</td>
+			</tr>
+		</thead>
+		<tbody>
+			{$num=1}
+			{foreach from=$fullCart item=item key=key}
+			<tr>
+				<td>{$num}</td>
+				<td>{$item.item_title}</td>
+				<td>{$item.price}</td>
+				<td align="center">{$item.quantity}</td>
+				<td>{$item.totalPrice}</td>
+			</tr>
+			{assign var='num' value=$num+1}
+			{/foreach}
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="5" align="right">итого: <b style="font-size:18px">{$cart->cartTotalPrice} грн.</b></td>
+			</tr>
+		</tfoot>
+	</table>	
+	</p>
+	
+	{if !$smarty.session.user.is_logged}
+		
+		<p><b>Без регистрации</b> - это в том случае, если вы планируете сделать покупку единожды в нашем магазине.<p>
+		<p><b>Для зарегистрированных пользователей</b> - это если вы уже зарегистрированы у нас или хотите зарегистрироваться. Регистрация дает вам возможность не задавать адреса доставок в следующий раз, видеть историю заказов и иметь накопительную систему скидок.</p>
+		
+		<div id="order-tabs">
+			<ul>
+				<li><a href="#tab-1">Для зарегестрированых пользователей</a></li>
+				<li><a href="#tab-2">Без регистрации</a></li>
+				<li><a href="#tab-3"><b style="color:">Регистрация</b></a></li>
+			</ul>
+			
+			<div id="tab-1">
+				<div class="loginform_in_cart container" style="width:350px; margin:0 auto; padding:0 20px">
+					<form method="post" class="form" id="loginform_in_cart" style="">
+						<p class="b">Войдите в систему:</p>
+						
+						<p>
+						<table width="100%" border="0" cellspacing="5">
+							<tr>
+								<td width="1%"><label for="login1">ваш логин:</label></td>
+								<td><input type="text" name="login" id="login1" /></td>
+							</tr>
+							<tr>
+								<td><label for="password1">пароль:</label></td>
+								<td><input type="password" name="password" id="password1" /></td>
+							</tr>
+							<tr>
+								<td width="1%" align="left"><a class="float_left" id="register_link" href="{$app->registrationPageUrl}">регистрация</a></td>
+								<td align="right"><button name="postAction" value="authorization" type="submit" class="button">войти &raquo;</button></td>
+							</tr>
+						</table>
+						</p>
+					</form>
+				</div><!-- .container -->
+			</div><!-- #tab-1 -->
+			
+			<div id="tab-2">	
+					<p class="b info">Вы можете произвести покупку без регистрации, как розничный клиент.<br />Заполните форму ниже</p>
+					{if $errors}
+						<div class="alert_block">
+							<p><b>В прецессе регистрации произошли следущие ошибки:</b></p>
+							<ul>
+								{foreach from=$errors item=error_info key=error_key}
+								<li>{$error_info}</li>
+								{/foreach}
+							</ul>
+						</div><!-- .alert_block -->
+					{/if}
+					<form method="post" class="form">
+						<p>
+						<table width="100%" cellspacing="8" border="0">
+							<tr>
+								<td width="200"><label for="name">{$app->constants.other_labels.pole_imya}:*</label></td>
+								<td><input type="text" name="name" id="name" value="{$smarty.post.name}" /></td>
+							</tr>
+							{*
+							<tr>
+								<td><label for="country">{$app->constants.order_form.label_country}:*</label></td>
+								<td><input type="text" name="country" id="country" value="{$smarty.post.country}" /></td>
+							</tr>
+							*}
+							<tr>
+								<td><label for="city">{$app->constants.other_labels.pole_gorod}:*</label></td>
+								<td><input type="text" name="city" id="city" value="{$smarty.post.city}" /></td>
+							</tr>
+							<tr>
+								<td><label for="phone_num">{$app->constants.other_labels.pole_telefon}:*</label></td>
+								<td><input type="text" name="phone_num" id="phone_num" value="{$smarty.post.phone_num}" /></td>
+							</tr>
+							<tr>
+								<td><label for="email">{$app->constants.other_labels.pole_email}:*</label></td>
+								<td><input type="text" name="email" id="email" value="{$smarty.post.email}" /></td>
+							</tr>
+							<tr>
+							<td width="200"><label for="delivery_method">{$app->constants.other_labels.pole_sposob_dostavki}:*</td>
+							<td>
+								<select name="delivery_method" id="delivery_method" style="width:300px">
+									<option value="none">...</option>
+									<option id="delivery_method_1">Самовывоз</option>
+									<option id="delivery_method_2">курьером</option>
+									<option id="delivery_method_3">Автолюкс, Гюнсел, Нова Почта</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td width="200"><label for="payment_method">{$app->constants.other_labels.pole_metod_oplaty}:*</td>
+							<td>
+								<select name="payment_method" id="payment_method" style="width:300px">
+									<option value="none">...</option>
+									<option>Наличными</option>
+									<option>Безналичными</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td width="200"><label for="time_of_delivery">{$app->constants.other_labels.pole_udobnoe_vremya_dostavki}:*</td>
+							<td>
+								<select name="time_of_delivery" id="time_of_delivery" style="width:300px">
+									<option value="none">...</option>
+									<option>8:00-12:00</option>
+									<option>12:00-15:00</option>
+									<option>15:00-18:00</option>
+									<option>Не имеет значения</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td width="200"><label for="comments">{$app->constants.other_labels.pole_osobye_primechaniya}:</td>
+							<td>
+								<textarea name="comments"  id="comments" style="height:100px">{$smarty.post.comments}</textarea>
+							</td>
+						</tr>
+						
+						<tr>
+							<td><input type="hidden" name="buyer_type" value="simple" /></td>
+							<td><button style="width:100%;" class="button" type="submit" name="postAction" value="order">{$app->constants.other_labels.submit_1}</button></td>
+						</tr>
+						
+						</table>
+						</p>
+					
+					</form>
+			</div><!-- #tab-2 -->
+			
+			<div id="tab-3">{include file="registration_form.html"}</div><!-- #tab-3 -->
+		
+		</div><!-- #order-tabs -->
+		
+	{else}
+	
+		<h1>Привет <b>{$smarty.session.user.name}</b></h1>
+		
+		<p>Для продолжения оформления заказа уточните пожалуйста следующие данные:</p>
+		
+		{if $errors}
+			<div class="alert_block">
+				<p><b>В прецессе регистрации произошли следущие ошибки:</b></p>
+				<ul>
+					{foreach from=$errors item=error_info key=error_key}
+					<li>{$error_info}</li>
+					{/foreach}
+				</ul>
+			</div><!-- .alert_block -->
+		{/if}
+		
+		<p>
+			<form class="form" method="post">
+				<table width="100%" cellspacing="8" border="0">
+					<tr>	
+						<td width="200"><label for="delivery_method">Способ доставки:*</label></td>
+						<td>
+							<select name="delivery_method" id="delivery_method" style="width:300px">
+								<option value="none">...</option>
+								<option id="delivery_method_1">Самовывоз</option>
+								<option id="delivery_method_2">курьером</option>
+								<option id="delivery_method_3">Автолюкс, Гюнсел, Нова Почта</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td><label for="payment_method">Метод оплаты:*</td>
+						<td>
+							<select name="payment_method" id="payment_method" style="width:300px">
+								<option value="none">...</option>
+								<option>Наличными</option>
+								<option>Безналичными</option>
+							</select>
+						</td>
+					</tr>
+					<tr id="time_of_delivery_row">
+						<td><label for="time_of_delivery">Удобное время доставки:*</td>
+						<td>
+							<select name="time_of_delivery" id="time_of_delivery" style="width:300px">
+								<option value="none">...</option>
+								<option>8:00-12:00</option>
+								<option>12:00-15:00</option>
+								<option>15:00-18:00</option>
+								<option>Не имеет значения</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td><label for="comments">Особые примечания:</td>
+						<td>
+							<textarea name="comments"  id="comments" style="height:100px"></textarea>
+						</td>
+					</tr>
+				</table>
+				<p align="center">
+					<input type="hidden" name="buyer_type" value="site_user" />
+					<button style="width:200px;" class="button" type="submit" name="postAction" value="order">{$app->constants.other_labels.submit_1}</button>
+				</p>
+			</form>
+		</p>
+	
+	{/if}
+	
+{elseif  $app->module.mode == 'orderfinish'}
+{*******************************************************************************************************}
+
+<h1>Ваш заказ отправлен на обработку!</h1>
+
+<div class="info_block">
+	<p>Поздравляем, Ваш заказ успешно сформирован и отправлен на обработку.</p>
+	<p>В ближайшее время с вами свяжется наш менеджер. <a id="printCart" class="print">Распечатать заказ</a></p>
+</div>
+<p>Заказаные товары:</p>
+<p>
+	<table class="table2">
+		<thead>
+			<tr>
+				<td width="1%">#</td>
+				<td width="1%">Артикул</td>
+				<td>Название</td>
+				<td>Цена</td>
+				<td>Сумма</td>
+			</tr>
+		</thead>
+		{*
+
+		[item_id] => 31706
+		[category_master_id] => 31629
+		[eurocode] => 0
+		[articul] => 2180108
+		[currency] => EUR
+		[trade_price] => 20.00
+		[retail_price] => 25.00
+		[item_title] => Держатель для струны короткий
+		[quantity] => 1
+		[rate] => 11.38
+		[price] => 227.6
+		[totalPrice] => 227.6
+
+		*}						
+		<tbody>
+			{$num=1}
+			{foreach from=$smarty.session.orderData.items item=item key=key}
+			<tr>
+				<td>{$num}</td>
+				<td>{$item.articul}</td>
+				<td>{$item.item_title}</td>
+				<td>{$item.price}</td>
+				<td>{$item.totalPrice}</td>
+			</tr>
+			{assign var='num' value=$num+1}
+			{/foreach}
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="5">
+					<div style="float:right">итого: <b style="font-size:18px">{$smarty.session.orderData.cart_total_price} грн.</b></div>
+				</td>
+			</tr>
+		</tfoot>
+	</table>	
+</p>
+
+
+{*******************************************************************************************************}
+{else}
+	<h1>{$app->constants.cart.zaglavie_stranicy_1}</h1>
+	{if $fullCart}
+		<form method="post">
+			<p>
+				<table class="table2 cart-table">
+					<thead>
+						<tr>
+							<td width="1%">#</td>
+							<td>Наименование детали</td>
+							<td width="1%">Цена</td>
+							<td width="1%">кол.</td>
+							<td width="1%">Сумма</td>
+							<td width="1%"></td>
+						</tr>
+					</thead>
+					<tbody>
+						{$num=1}
+						{foreach from=$fullCart item=item key=key}
+						<tr>
+							<td>{$num}</td>
+							<td>{$item.item_title}</td>
+							<td>{$item.price}</td>
+							<td><input class="quantity" type="text" name="quantity[{$key}]" value="{$item.quantity}" /></td>
+							<td>{$item.totalPrice}</td>
+							<td><a class="dropItem drop" href="/cart/?getAction=dropItem&key={$key}"></a></td>
+						</tr>
+						{assign var='num' value=$num+1}
+						{/foreach}
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="6" align="right">итого: <b style="font-size:18px">{$cart->cartTotalPrice} грн.</b></td>
+						</tr>
+					</tfoot>
+				</table>	
+			</p>
+			<p style="text-align:right">
+				<button class="button" name="postAction" value="updateCart" type="submit">{$app->constants.cart.knopka_pereschitat}</button>
+				<a class="button" href="/cart/order/">{$app->constants.cart.knopka_otpravit_zakaz}</a>
+			</p>
+		</form>
+	{else}
+	<p>Корзина покупок пустая.</p>
+	{/if}
+{/if}
+</div><!-- #cart -->

@@ -1,0 +1,38 @@
+{if $admin->mode == ''}
+<p><a class="button" onclick="history.back()">&laquo; назад </a> <a class="button" href="?section={$admin->section}&mode=add_edit_article&structure_master_id={$smarty.get.structure_master_id}">добавить статью</a></p>
+<div id="langtabs">
+	<ul>
+		{foreach from=$admin->languages item=lang key=lang_id}
+			<li><a href="#lang-{$lang_id}">{$lang.title}</a></li>
+		{/foreach}
+	</ul>
+	
+	{foreach from=$admin->languages item=lang key=lang_id}
+	<div id="lang-{$lang_id}">
+	<table class="table" width="100%">
+		<thead>
+			<tr>
+				<td>Название</td>
+				<td width="1%">add date</td>
+				<td width="1%" colspan="2">Действие</td>
+			</tr>
+		</thead>
+		<tbody>
+		{foreach from=$articles item=articleItem}
+		<tr class="display-{$articleItem.ext[$lang_id].display}">
+			<td>{$articleItem.ext[$lang_id].name}</td>
+			<td><small>{$articleItem.add_date|date_format:"%H:%M:%S"}<br />{$articleItem.add_date|date_format:"%d.%b.%Y"}</small></td>
+			<td><a title="Редактировать" class="edit" href="?section={$admin->section}&mode=add_edit_article&article_master_id={$articleItem.id}&structure_master_id={$articleItem.structure_master_id}"></td>
+			<td><a title="Удалить" class="drop" href="?section={$admin->section}&gAction=dropArticleItem&article_master_id={$articleItem.id}&structure_master_id={$articleItem.structure_master_id}"></td>
+		</tr>
+		{/foreach}
+		
+		</tbody>
+	</table>
+	</div>
+	{/foreach}
+</div>
+{else}
+	{capture name='mode_file'}mode/{$admin->mode}.html{/capture}
+	{include file=$smarty.capture.mode_file}
+{/if}

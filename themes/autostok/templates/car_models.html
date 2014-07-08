@@ -1,0 +1,11 @@
+{if $models}
+<div id="fullMenu">
+	<ul class="fullMenuItem">
+	{foreach from=$models item=model key=key}
+		<li>модель: <a href="{$model.url}"><b>{$model.name}</b></a></li>
+		{if $key == $ItemsQantityInBlock}</ul><ul class="fullMenuItem">{/if}
+	{/foreach}
+	</ul>
+	<div class="clear"></div>
+</div><!-- #fullMenu -->
+{/if}

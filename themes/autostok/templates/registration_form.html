@@ -1,0 +1,94 @@
+<div class="container">
+	<form method="post" id="registration" class="form" action="/user/registration/">
+
+	{if $errors}
+		<div class="alert_block">
+			<p><b>В прецессе регистрации произошли следущие ошибки:</b></p>
+			<ul>
+				{foreach from=$errors item=error_info key=error_key}
+				<li>{$error_info}</li>
+				{/foreach}
+			</ul>
+		</div><!-- .alert_block -->
+	{/if}
+
+	<table width="100%" cellspacing="8" border="0">
+		<tr>
+			<td width="1%"><label for="login">{$app->constants.registraciya_na_sajte.pole_login}:*</label></td>
+			<td><input type="text" name="login" id="login" value="{$smarty.post.login}" /></td>
+		</tr>
+		<tr>
+			<td><label for="name">{$app->constants.registraciya_na_sajte.pole_imya}:*</label></td>
+			<td><input type="text" name="name" id="name" value="{$smarty.post.name}" /></td>
+		</tr>
+		<tr>
+			<td><label for="city">{$app->constants.registraciya_na_sajte.pole_gorod}:</label></td>
+			<td><input type="text" name="city" id="city" value="{$smarty.post.city}" /></td>
+		</tr>
+		<tr>
+			<td><label for="register_costumer_type">566565:*</label></td>
+			<td>
+				<select name="costumer_type" id="register_costumer_type">
+					<option value="none">.....</option>
+					{* <option {if $smarty.post.costumer_type == "retail_buyer"} selected="selected" {/if} value="retail_buyer">розничный покупатель</option> *}
+					<option {if $smarty.post.costumer_type == "legal_entity"} selected="legal_entity" {/if} value="legal_entity">юридическое лицо</option>
+					<option {if $smarty.post.costumer_type == "individual"} selected="individual" {/if} value="individual">физичиское лицо</option>
+				</select>
+			</td>
+		</tr>
+		
+		
+		<!-- # company -->
+		<tr id="company_row_reg_table" style="display:">
+			<td><label for="company">{$app->constants.reg_form.label_organization}{* <br /><small>если юр. лицо</small>*}:*</label></td>
+			<td><input type="text" name="company" id="company" value="{$smarty.post.company}" /></td>
+		</tr>
+		<!-- #company -->
+		
+		<tr>
+			<td><label for="phone_num">{$app->constants.reg_form.label_phone}:*</label></td>
+			<td><input type="text" name="phone_num" id="phone_num" value="{$smarty.post.phone_num}" /></td>
+		</tr>
+		<tr>
+			<td><label for="email">{$app->constants.reg_form.label_email}:*</label></td>
+			<td><input type="text" name="email" id="email" value="{$smarty.post.email}" /></td>
+		</tr>
+		<tr>
+			<td><label for="password">{$app->constants.reg_form.label_password}:*</label></td>
+			<td><input type="password" name="password" id="password" value="{$smarty.post.password}" /></td>
+		</tr>
+		<tr>
+			<td><label for="password2">{$app->constants.reg_form.label_password2}:*</label></td>
+			<td><input type="password" name="password2" id="password2" value="{$smarty.post.password2}" /></td>
+		</tr>
+		<tr>
+			<td><label for="from_user">Откуда вы о нас узнали:*</label></td>
+			<td>
+				<select name="from_user" id="from_user">
+					<option value="">...</option>
+					{foreach from=$users_from_list item=item key=key}
+						<option value="{$item.id}">{$item.title}</option>
+					{/foreach}
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td valign="middle"><label for="code">{$app->constants.reg_form.label_kcaptcha}:*</label></td>
+			<td>
+				<p>
+					<div id="captcha">
+						<table id="captchaTable">
+							<tr><td align="center"><div id="captchaImageContainer"><img id="captchaImage" src="/libs/kcaptcha/index.php" /></div><!-- #captchaImageContainer --></td></tr>
+						</table>
+					</div>
+				</p>
+				<p><input type="text" name="code" id="code" value="" /></p>
+			</td>
+		</tr>
+		<tr>
+			<td><input type="hidden" name="postAction" value="register" /></td>
+			<td><button class="button" type="submit">{$app->constants.reg_form.page_header_reg}</button></td>
+		</tr>
+	</table>
+	</form>
+</div><!-- -->

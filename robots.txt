@@ -1,0 +1,7 @@
+User-agent: *
+sitemap: http://pma-tools.com.ua/sitemap.xml
+
+
+User-agent: Yandex
+Host: pma-tools.com.ua
+

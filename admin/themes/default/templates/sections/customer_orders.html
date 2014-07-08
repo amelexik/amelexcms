@@ -1,0 +1,40 @@
+{if $admin->mode == ''}
+<table class="table" width="100%">
+	<thead>
+		<tr>
+			<td width="1%">№</td>
+			<td width="1%">Состояние<br />заказа</td>
+			<td>Имя пользователя</td>
+			<td width="1%">E-mail</td>
+			<td width="1%">Дата заказа</td>
+			<td width="1%">phone</td>
+			<td width="1%" colspan="2"></td>
+		</tr>
+	</thead>
+	<tbody>
+		{foreach from=$orders item=orderItem key=num}
+		<tr class="1order-status-{$orderItem.status}">
+			<td>{$orderItem.id}</td>
+			<td>
+				<a href="{$orderItem.edit_url}"><span class="orderStatus {$orderItem.status}"></span>
+				<div align="center"><small>
+					{if $orderItem.status == "none"}не рассмотрен{/if}
+					{if $orderItem.status == "processed"}в процессе{/if}
+					{if $orderItem.status == "completed"}выполнен{/if}
+				</small></div>
+				</a>
+			</td>
+			<td>{$orderItem.user_name}</td>
+			<td><a href="mailto:{$orderItem.user_email}">{$orderItem.user_email}</a></td>
+			<td class="nowrap">{$orderItem.date}</td>
+			<td class="nowrap">{$orderItem.user_phone}</td>
+			<td><a href="{$orderItem.edit_url}" class="edit"></a></td>
+			<td><a href="{$orderItem.drop_url}" class="drop"></a></td>
+		</tr>
+		{/foreach}
+	</tbody>
+</table>
+{else}
+	{capture name='mode_file'}mode/{$admin->mode}.html{/capture}
+	{include file=$smarty.capture.mode_file}
+{/if}

@@ -1,0 +1,98 @@
+<h1>Редактирование категории продукции</h1>
+<form method="post" enctype="multipart/form-data">
+	<div id="langtabs">
+		<ul>
+			{foreach from=$admin->languages item=lang key=lang_id}
+				<li><a href="#lang-{$lang_id}">{$lang.title}</a></li>
+			{/foreach}
+		</ul>
+		
+		{foreach from=$admin->languages item=lang key=lang_id}
+		<div class="langtab_div" id="lang-{$lang_id}">
+			<p>язык: <b>{$lang.title}</b></p>
+			<table class="form-table">
+				<tr>
+					<td width="150"><label for="title_{$lang_id}">Название категории:</label></td>
+					<td><input type="text" name="category[{$lang_id}][title]" id="title_{$lang_id}" value="{$category.ext[$lang_id].title}" /></td>
+				</tr>
+				<tr>
+					<td><label for="translit_{$lang_id}">Транслитерация:</label></td>
+					<td><input type="text" name="category[{$lang_id}][translit]" id="translit_{$lang_id}" value="{$category.ext[$lang_id].translit}" /></td>
+				</tr>
+				<tr>
+					<td><label for="meta_title_{$lang_id}">Титл:</label></td>
+					<td><input type="text" name="category[{$lang_id}][meta_title]" id="meta_title_{$lang_id}" value="{$category.ext[$lang_id].meta_title}" /></td>
+				</tr>
+				<tr>
+					<td><label for="meta_description_{$lang_id}">Описание:</label></td>
+					<td><input type="text" name="category[{$lang_id}][meta_description]" id="meta_description_{$lang_id}" value="{$category.ext[$lang_id].meta_description}" /></td>
+				</tr>
+				<tr>
+					<td><label for="meta_keywords_{$lang_id}">Ключевые слова:</label></td>
+					<td><input type="text" name="category[{$lang_id}][meta_keywords]" id="meta_keywords_{$lang_id}" value="{$category.ext[$lang_id].meta_keywords}" /></td>
+				</tr>
+				<tr>
+					<td><label for="static_content_{$lang_id}">Текстовый контент:</label></td>
+					<td><textarea name="category[{$lang_id}][static_content]" id="static_content_{$lang_id}">{$category.ext[$lang_id].static_content}</textarea></td>
+				</tr>				
+			</table>
+		</div>
+		{/foreach}
+		
+		{foreach from=$admin->languages item=lang key=lang_id}
+		<script type="text/javascript">
+		var editor_{$lang_id} = CKEDITOR.replace( 'static_content_{$lang_id}',
+		{literal}
+		{
+			filebrowserBrowseUrl: "/admin/js/ckfinder/ckfinder.html",
+			filebrowserImageBrowseUrl: "/admin/js/ckfinder/ckfinder.html?type=Images",
+			filebrowserFlashBrowseUrl: "/admin/js/ckfinder/ckfinder.html?type=Flash",
+			filebrowserUploadUrl: "/admin/js/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Files",
+			filebrowserImageUploadUrl: "/admin/js/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Images",
+			filebrowserFlashUploadUrl: "/admin/js/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Flash",
+			filebrowserWindowWidth: "1000",
+			filebrowserWindowHeight: "300"
+		}
+		{/literal}
+		);
+		</script>
+		{/foreach}		
+		
+		<div class="langtab_div">
+			<table class="form-table">
+				<tr>
+					<td width="150"><label for="display">Статус:</label></td>
+					<td>
+						<select name="category[display]" id="display">
+							<option {if $category.display == 'y'}selected="selected"{/if} value="y">Отображать</option>
+							<option {if $category.display == 'n'}selected="selected"{/if} value="n">Скрыть</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td><label for="display"><b>Картинка:</b></label></td>
+					<td>
+						<p><input type="file" name="category_image" /></p>
+						{if $category.category_image}
+						<p>
+							<table border="0">
+								<tr>
+									<td><img src="{$smarty.const.CATALOG_CATEGORIES_IMAGE_PATH}{$category.category_image}" style="width:auto; border:#666 1px solid;" /></td>
+									<td><input type="checkbox" id="drop_image" name="category[drop_image]" value="{$category.category_image}" /> <label for="drop_image">удалить картинку</label></td>
+								</tr>
+							</table>
+						</p>
+						{/if}
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="langtab_div">
+			<input type="hidden" name="pAction" value="update_category" />
+			<input type="hidden" name="category[item_id]" value="{$category.item_id}" />
+			<input type="hidden" name="category[item_pid]" value="{$category.item_pid}" />
+			<button name="submit_mode" value="set" type="submit">Применить</button>
+			<button name="submit_mode" value="save" type="submit">Сохранить</button>
+		</div>
+	</div><!-- #langtabs -->
+</form>

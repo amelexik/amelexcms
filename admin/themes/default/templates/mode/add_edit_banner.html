@@ -1,0 +1,76 @@
+<h1>Создание/редактирование баннера</h1>
+<form method="post">
+	<div id="langtabs">
+		<ul>
+			{foreach from=$admin->languages item=lang key=lang_id}
+				<li><a href="#lang-{$lang_id}">{$lang.title}</a></li>
+			{/foreach}
+		</ul>
+		
+		{foreach from=$admin->languages item=lang key=lang_id}
+		<div class="langtab_div" id="lang-{$lang_id}">
+			<table class="form-table">
+				<tr>
+					<td width="150"><label for="title_{$lang_id}">Заглавие баннера:</label></td>
+					<td><input type="text" name="item[{$lang_id}][title]" id="title_{$lang_id}" value="{$item.ext[$lang_id].title}" /></td>
+				</tr>
+				<tr>
+					<td><label for="display_{$lang_id}">Статус:</label></td>
+					<td>
+						<select name="item[{$lang_id}][display]" id="display_{$lang_id}">
+							<option {if $item.ext[$lang_id].display == 'y'}selected="selected"{/if} value="y">отображать</option>
+							<option {if $item.ext[$lang_id].display == 'n'}selected="selected"{/if} value="n">неотображать</option>
+							<option {if $item.ext[$lang_id].display == 'everywhere'}selected="selected"{/if} value="everywhere">Отображать на всех страницах</option>
+						</select>				
+					</td>
+				</tr>
+				
+				{*
+				<tr>
+					<td><label for="display_everywhere_{$lang_id}">Отображать на всех страницах:</label></td>
+					<td><input type="checkbox" name="item[{$lang_id}][display_everywhere]" value="y" {if $item.ext[$lang_id].display_everywhere == 'y'}checked="checked"{/if} /></td>
+				</tr>
+				*}
+				
+				<tr>
+					<td><label for="bannerContent_{$lang_id}">Содержимое(контент):</label></td>
+					<td><textarea name="item[{$lang_id}][content]" id="bannerContent_{$lang_id}">{$item.ext[$lang_id].content}</textarea></td>
+				</tr>
+			</table>
+		</div>
+		{/foreach}
+		
+		{foreach from=$admin->languages item=lang key=lang_id}
+		<script type="text/javascript">
+		var editor_{$lang_id} = CKEDITOR.replace( 'bannerContent_{$lang_id}',
+		{literal}
+		{
+			filebrowserBrowseUrl: "/admin/js/ckfinder/ckfinder.html",
+			filebrowserImageBrowseUrl: "/admin/js/ckfinder/ckfinder.html?type=Images",
+			filebrowserFlashBrowseUrl: "/admin/js/ckfinder/ckfinder.html?type=Flash",
+			filebrowserUploadUrl: "/admin/js/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Files",
+			filebrowserImageUploadUrl: "/admin/js/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Images",
+			filebrowserFlashUploadUrl: "/admin/js/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Flash",
+			filebrowserWindowWidth: "1000",
+			filebrowserWindowHeight: "700"
+		}
+		{/literal}
+		);
+		</script>
+		{/foreach}
+		
+		<div class="langtab_div">
+			<table class="form-table">
+					<tr>
+						<td width="150">
+							<input type="hidden" name="pAction" value="{if $item.id>0}update_banner{else}add_banner{/if}" />
+							<input type="hidden" name="banner_master_id" value="{$item.id}" />
+						</td>
+						<td>
+							{if $item.id>0}<button name="submit_mode" value="set" class="button" type="submit">Применить</button>{/if}<button name="submit_mode" value="save" class="button" type="submit">Сохранить</button>				
+						</td>
+					</tr>
+			</table>
+		</div>
+	</div>
+</form>

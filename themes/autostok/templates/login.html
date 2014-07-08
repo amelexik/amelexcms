@@ -1,0 +1,30 @@
+<div class="block" id="login">
+	<div class="header">Авторизация</div>
+	<div class="content">
+		{if $smarty.session.user.is_logged == true}
+		<div>
+			<p>Привет <b>{$smarty.session.user.name}</b></p>
+			{if $smarty.session.user.edit_profile_url}<p><a href="{$smarty.session.user.edit_profile_url}">Редактировать профиль</a></p>{/if}
+			<p><a href="?getAction=logout">выход</a></p>
+		</div>
+		{else}
+		<form method="post">
+			<table width="100%" cellspacing="8" border="0">
+				<tr>
+					<td width="1%"><label for="login">логин:</label></td>
+					<td><input type="text" name="login" /></td>
+				</tr>
+				<tr>
+					<td><label for="">пароль:</label></td>
+					<td><input type="text" name="password" /></td>
+				</tr>
+				<tr>
+					<td><input type="hidden" name="postAction" value="authorization" /></td>
+					<td><button type="submit">авторизация</button></td>
+				</tr>
+				
+			</table>
+		</form>
+		{/if}
+	</div>
+</div>

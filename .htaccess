@@ -1,0 +1,53 @@
+AddDefaultCharset UTF-8
+RewriteEngine on
+
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteCond %{HTTP_HOST} ^www.pma-tools.com.ua$ [NC]
+RewriteRule ^(.*)$ http://pma-tools.com.ua/$1 [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^GET\ .*/index\.(php|html)\ HTTP
+RewriteRule ^(.*)index\.(php|html)$ /$1 [R=301,L]
+
+#rss
+RewriteRule ^rss(/?)$ /index.php?module=rss [L,QSA]
+
+#rss
+RewriteRule ^postmessage(/?)$ /send.php [L,QSA]
+
+#cart
+RewriteRule ^cart(/?)$ /index.php?module=cart [L,QSA]
+RewriteRule ^cart/order(/?)$ /index.php?module=cart&mode=order [L,QSA]
+RewriteRule ^cart/orderfinish(/?)$ /index.php?module=cart&mode=orderfinish [L,QSA]
+
+#catalog
+RewriteRule ^(/?)$ /index.php?module=catalog&mode=show_categories [L,QSA]
+RewriteRule ^catalog(/?)$ /index.php?module=catalog&mode=show_categories [L,QSA]
+RewriteRule ^(catalog)/(.[a-z0-9-]{1,50}/?)$ /index.php?module=catalog&mode=show_sub_categories&master_category_translit=$2 [L,QSA]
+RewriteRule ^(catalog)/(.[a-z0-9-]{1,50})/(.[a-z0-9-]{1,50})(/?)$ /index.php?module=catalog&mode=show_products&master_category_translit=$3 [L,QSA]
+RewriteRule ^(catalog)/(.[a-z0-9-]{1,50})/(.[a-z0-9-]{1,50})/page/([0-9]{1,3})(/?)$ /index.php?module=catalog&mode=show_products&master_category_translit=$3&page=$4 [L,QSA]
+
+
+RewriteRule ^(catalog)/(.[a-z0-9-]{1,50})/(.[a-z0-9-]{1,50})/Product-(.[a-z0-9-]{1,100})(/?)$ /index.php?module=catalog&mode=show_product&product_translit=$4 [L,QSA]
+
+#cart overlay
+RewriteRule ^cartoverlay(/?)$ /index.php?module=cartoverlay [L,QSA]
+RewriteRule ^printcart(/?)$ /index.php?module=printcart [L,QSA]
+
+#user
+RewriteRule ^user/registration(/?)$ /index.php?module=user&mode=registration [L,QSA]
+RewriteRule ^user/registrationfinish(/?)$ /index.php?module=user&mode=registrationfinish [L,QSA]
+RewriteRule ^user/editprofile(/?)$ /index.php?module=user&mode=editprofile [L,QSA]
+
+#sitemap
+RewriteRule ^sitemap(/?)$ /index.php?module=sitemap [L,QSA]
+
+#sitemap.xml
+RewriteRule ^sitemap.xml$ /sitemap.php [L,QSA]
+
+#sitemap
+RewriteRule ^searchbycode/(/?)$ /index.php?module=searchbycode [L,QSA]
+
+RewriteRule ^([^\.]+)$ /index.php [QSA]
+#ErrorDocument 404 /index.php?error404=1

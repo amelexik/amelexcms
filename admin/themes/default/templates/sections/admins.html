@@ -1,0 +1,30 @@
+<p><a class="button" onclick="history.back()">&laquo; назад </a>{if $smarty.session.admin.root == 'y'} <a class="button" href="?section={$admin->section}&mode=add_edit_admin">добавить пользователя</a>{/if}</p>
+{if !$admin->mode}
+<table class="table">
+	<thead>
+		<tr>
+			<td width="1%">#</td>
+			<td>имя</td>
+			{*<td>логин</td>
+			<td width="1%">root</td>*}
+			<td width="1%"></td>
+		</tr>
+	</thead>
+	<tbody>
+	{$num=1}
+	{foreach from=$admins item=admin key=key}
+		<tr>
+			<td>{$num}</td>
+			<td>{$admin.name}<br /><br /><small>логин: <b>{$admin.login}</b></small></td>
+			{*<td>{$admin.login}</td>
+			<td>{$admin.root}</td>*}
+			<td><a href="{$admin.edit_url}" class="edit"></a></td>
+		</tr>
+		{assign var=num value=$num+1}
+	{/foreach}
+	</tbody>
+</table>
+{else}
+	{capture name='mode_file'}mode/{$admin->mode}.html{/capture}
+	{include file=$smarty.capture.mode_file}
+{/if}

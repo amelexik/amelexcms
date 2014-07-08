@@ -1,0 +1,12 @@
+html, body
+{
+	font-family: Verdana, Tahoma;
+	font-size:13px;
+}
+
+@media print{
+	#printPageButton
+	{
+		display:none;
+	}
+}

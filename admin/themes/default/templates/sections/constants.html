@@ -1,0 +1,50 @@
+<p><a class="button" href="?section={$admin->section}&mode=add_edit_group">добавить групу</a> <a class="button" onclick="history.back()">&laquo; назад </a>
+{if $admin->mode == ''}
+<div id="langtabs">
+	<ul>
+		{foreach from=$admin->languages item=lang key=lang_id}
+			<li><a href="#lang-{$lang_id}">{$lang.title}</a></li>
+		{/foreach}
+	</ul>
+	
+	{foreach from=$admin->languages item=lang key=lang_id}
+	<div id="lang-{$lang_id}">
+	
+		{if $constants}
+		{foreach from=$constants item=group key=groupId}
+			<form method="post">
+			<a id="g{$groupId}"></a>
+			<fieldset>
+				<legend>{$group.group_title}</legend>
+				{if $group.items}
+				<table class="form-table">
+					{foreach from=$group.items item=constantItem}
+					<tr>
+						<td width="150"><label for="item_{$lang_id}_{$group.id}_{$constantItem.id}"><b>{$constantItem.title}</b><br /><small class="grey">{literal}{$app->constants.{/literal}{$group.group_name}.{$constantItem.name}{literal}}{/literal}</small></label></td>
+						<td><input type="text" name="items[{$lang_id}][{$groupId}][{$constantItem.master_id}]" id="item_{$lang_id}_{$group.id}_{$constantItem.id}" value="{$constantItem.ext[$lang_id]}" /></td>
+						<td width="1%"><a class="drop" href="?section={$admin->section}&gAction=dropConstant&constant_master_id={$constantItem.master_id}"></a></td>
+					</tr>
+					{/foreach}
+				</table>
+				{/if}
+				<table class="form-table">	
+					<tr>
+						<td>
+							<input type="hidden" name="pAction" value="update_group_constants" />
+							<a href="?section={$admin->section}&mode=add_edit_constant&group_id={$groupId}" class="button">Добавить константу</a> 
+							<button class="button" type="submit">сохранить</button>
+						</td>
+					</tr>
+				</table>
+			</fieldset>
+			</form>
+		{/foreach}
+		{/if}
+		
+	</div>
+	{/foreach}
+</div>
+{else}
+	{capture name='mode_file'}mode/{$admin->mode}.html{/capture}
+	{include file=$smarty.capture.mode_file}
+{/if}

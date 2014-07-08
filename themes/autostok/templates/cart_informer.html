@@ -1,0 +1,15 @@
+<div class="float_right user_block {if $cart->cartItemsCount >0}noEmpty{/if}" id="cartInformer">
+	<div id="cart_content_wrapper">
+		<div id="cart_content">
+			<div class="header">корзина</div>
+			<p class="cart_info cart_row">товаров: <span id="cartCount" class="b">{$cart->cartItemsCount}</span> шт.</p>
+			<p class="cart_info cart_row">на сумму: <span id="cartTotalPrice" class="b">{$cart->cartTotalPrice}</span> UAN</p>
+			{if $cart->cartItemsCount > 0}
+			<p class="cart_row">
+				<a class="button" href="/cart/">пересчитать</a>
+				<a class="button" href="/cart/order/">оформить</a>
+			</p>
+			{/if}
+		</div><!-- #cart_content -->
+	</div><!-- #cart_content_wrapper -->
+</div><!-- #cart -->

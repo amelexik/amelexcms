@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+	<title>{$app->meta['title']}</title>
+	<meta name="distribution" content="global" />
+	<link href="{$theme_path}css/printcart.module.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+<input type="button" id="printPageButton" value="Напечатать страницу" onClick="window.print()">
+
+<table width="100%" cellspacing="0" cellpadding="4" border="1">
+	<thead>
+		<tr>
+			<th width="1%">#</th>
+			<th>Бренд</th>
+			<th>Номер детали</th>
+			<th>Наименование детали</th>
+			<th width="1%">Цена</th>
+			<th width="1%">кол.</th>
+			<th width="1%">сумма, грн</th>
+		</tr>
+	</thead>
+	<tbody>
+		{foreach from=$smarty.session.orderData.items item=item key=key}
+		<tr>
+			<td>{$key}</td>
+			<td>{$item.brand}</td>
+			<td>{$item.number}</td>
+			<td>{$item.name}</td>
+			<td>{$item.price}</td>
+			<td>{$item.quantity}</td>
+			<td>{$item.totalPrice}</td>
+		</tr>
+		{/foreach}
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="8">
+				<div style="float:left">
+				</div>
+				<div style="float:right">итого: <b style="font-size:18px">{$smarty.session.orderData.cart_total_price} UAN</b></div>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+
+</body>
+
+</html>

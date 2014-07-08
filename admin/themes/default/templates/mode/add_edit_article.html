@@ -1,0 +1,79 @@
+<form method="post">
+	<div id="langtabs">
+		<ul>
+		{foreach from=$admin->languages item=lang key=lang_id}
+			<li><a href="#lang-{$lang_id}">{$lang.title}</a></li>
+		{/foreach}
+		</ul>
+
+		{foreach from=$admin->languages item=lang key=lang_id}
+		<div class="langtab_div" id="lang-{$lang_id}">
+			<p>язык: <b>{$lang.title}</b></p>
+			<table class="form-table">
+				<tr>
+					<td width="150"><label for="name_{$lang_id}"><b>Название</b></label></td>
+					<td><input type="text" name="item[{$lang_id}][name]" id="name_{$lang_id}" value="{$item.ext[$lang_id].name}" /></td>
+				</tr>
+				<tr>
+					<td><label for="translit_{$lang_id}"><b>Транслитерация</b></label></td>
+					<td><input type="text" name="item[{$lang_id}][translit]" id="translit_{$lang_id}" value="{$item.ext[$lang_id].translit}" /></td>
+				</tr>
+				<tr>
+					<td><label for="display_{$lang_id}">Статус:</label></td>
+					<td>
+						<select name="item[{$lang_id}][display]" id="display_{$lang_id}">
+							<option {if $item.ext[$lang_id].display == 'y'}selected="selected"{/if} value="y">отображать</option>
+							<option {if $item.ext[$lang_id].display == 'n'}selected="selected"{/if} value="n">неотображать</option>
+							<option {if $item.ext[$lang_id].display == 'h'}selected="selected"{/if} value="h">скрыть в меню</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td><label for="preview_{$lang_id}"><b>Краткое содержимое:</b></label></td>
+					<td><textarea name="item[{$lang_id}][preview]" id="preview_{$lang_id}">{$item.ext[$lang_id].preview}</textarea></td>
+				</tr>
+				<tr>
+					<td><label for="content_{$lang_id}"><b>Полное содержимое:</b></label></td>
+					<td><textarea name="item[{$lang_id}][content]" id="content_{$lang_id}">{$item.ext[$lang_id].content}</textarea></td>
+				</tr>
+			</table>
+		</div><!-- .langtab_div -->
+		<script type="text/javascript">
+		var editor_{$lang_id} = CKEDITOR.replace( 'preview_{$lang_id}',
+		{literal}
+		{
+			filebrowserBrowseUrl: "/admin/js/ckfinder/ckfinder.html",
+			filebrowserImageBrowseUrl: "/admin/js/ckfinder/ckfinder.html?type=Images",
+			filebrowserFlashBrowseUrl: "/admin/js/ckfinder/ckfinder.html?type=Flash",
+			filebrowserUploadUrl: "/admin/js/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Files",
+			filebrowserImageUploadUrl: "/admin/js/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Images",
+			filebrowserFlashUploadUrl: "/admin/js/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Flash",
+			filebrowserWindowWidth: "1000",
+			filebrowserWindowHeight: "700"
+		}
+		{/literal}
+		);
+		</script>
+		<script type="text/javascript">
+		var editor_{$lang_id} = CKEDITOR.replace( 'content_{$lang_id}',
+		{literal}
+		{
+			filebrowserBrowseUrl: "/admin/js/ckfinder/ckfinder.html",
+			filebrowserImageBrowseUrl: "/admin/js/ckfinder/ckfinder.html?type=Images",
+			filebrowserFlashBrowseUrl: "/admin/js/ckfinder/ckfinder.html?type=Flash",
+			filebrowserUploadUrl: "/admin/js/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Files",
+			filebrowserImageUploadUrl: "/admin/js/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Images",
+			filebrowserFlashUploadUrl: "/admin/js/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Flash",
+			filebrowserWindowWidth: "1000",
+			filebrowserWindowHeight: "700"
+		}
+		{/literal}
+		);
+		</script>
+		{/foreach}
+	</div><!-- #langtabs -->
+	<div class="langtab_div">
+		<input type="hidden" name="pAction" value="{if $smarty.get.article_master_id>0}update_article_item{else}add_article_item{/if}" />
+		<button type="submit">Сохранить</button> <button onclick="history.back()">&laquo; назад </button>
+	</div>
+</form>

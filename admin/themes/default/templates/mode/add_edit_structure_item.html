@@ -1,0 +1,86 @@
+<form method="post">
+<div id="langtabs">
+	<ul>
+		{foreach from=$admin->languages item=lang key=lang_id}
+			<li><a href="#lang-{$lang_id}">{$lang.title}</a></li>
+		{/foreach}
+	</ul>
+	
+	{foreach from=$admin->languages item=lang key=lang_id}
+	<div class="langtab_div" id="lang-{$lang_id}">
+		<p>язык: <b>{$lang.title}</b></p>
+		<table class="form-table">
+			<tr>
+				<td width="150"><label for="name_{$lang_id}"><b>Название</b></label></td>
+				<td><input type="text" name="item[{$lang_id}][name]" id="name_{$lang_id}" value="{$item.ext[$lang_id].name}" /></td>
+			</tr>
+			<tr>
+				<td><label for="title_{$lang_id}">Титл</label></td>
+				<td><input type="text" name="item[{$lang_id}][title]" id="title_{$lang_id}" value="{$item.ext[$lang_id].title}" /></td>
+			</tr>
+			<tr>
+				<td><label for="description_{$lang_id}">Описание</label></td>
+				<td>
+					<textarea name="item[{$lang_id}][description]" id="description_{$lang_id}">{$item.ext[$lang_id].description}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<td><label for="keywords_{$lang_id}">Ключевые слова</label></td>
+				<td><input type="text" name="item[{$lang_id}][keywords]" id="keywords_{$lang_id}" value="{$item.ext[$lang_id].keywords}" /></td>
+			</tr>
+			<tr>
+				<td width="150"><label for="translit_{$lang_id}"><b>Транслитерация</b></label></td>
+				<td><input type="text" name="item[{$lang_id}][translit]" id="translit_{$lang_id}" value="{$item.ext[$lang_id].translit}" /></td>
+			</tr>
+			<tr>
+				<td><label for="display_{$lang_id}">Статус раздела:</label></td>
+				<td>
+					<select name="item[{$lang_id}][display]" id="display_{$lang_id}">
+						<option {if $item.ext[$lang_id].display == 'y'}selected="selected"{/if} value="y">отображать</option>
+						<option {if $item.ext[$lang_id].display == 'n'}selected="selected"{/if} value="n">неотображать</option>
+						<option {if $item.ext[$lang_id].display == 'h'}selected="selected"{/if} value="h">скрыть в меню</option>
+					</select>
+				</td>
+			</tr>
+			{if $item.id > 0}
+			<tr>
+				<td><label for="banners_{$lang_id}">Баннера:</label></td>
+				<td>
+					{if $banners}
+					<ul class="banners_list">
+						{foreach from=$banners item=banner}
+							<li><input id="banner_checkbox_{$lang_id}_{$banner.id}" type="checkbox" name="banners[{$lang_id}][]" {if $banner.ext[$lang_id].display == "everywhere"}disabled="disabled"{/if} {if $banner.ext[$lang_id].checked == "checked"}checked="checked"{/if}  value="{$banner.id}" /> <label for="banner_checkbox_{$lang_id}_{$banner.id}">{$banner.ext[$lang_id].title}</label></li>
+						{/foreach}
+					</ul>
+					{/if}
+				</td>
+			</tr>
+			{/if}
+		</table>
+	</div>
+	{/foreach}
+	<div class="langtab_div">
+		<table class="form-table">
+			<tr>
+				<td width="150"><label for="template"><b>шаблон</b></label></td>
+				<td>
+					<select name="item[template]" id="template">
+						{foreach from=$admin->templates item=template_title key=template_name}
+						<option {if $item.template == $template_name}selected="selected"{/if} value="{$template_name}">{$template_title}</option>
+						{/foreach}
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td><label for="template">сортировка</label></td>
+				<td><input type="text" name="sorting" id="sorting" value="{$item.sorting}" /></td>
+			</tr>
+		</table>
+	</div>
+	<div class="langtab_div">
+		<input type="hidden" name="parent_id" value="{$smarty.get.parent_id}" />
+		{if $item.id > 0}<input type="hidden" name="pAction" value="update_structure_item" />{else}<input type="hidden" name="pAction" value="add_structure_item" />{/if}
+		<button class="button" type="submit">{if $item.id > 0}Отправить{else}Добавить раздел{/if}</button>
+	</div>
+</div>
+</form>

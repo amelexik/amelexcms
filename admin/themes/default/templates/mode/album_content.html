@@ -1,0 +1,91 @@
+<!-- Framework CSS -->
+<link rel="stylesheet" href="/js/fancyupload/fancyupload.css" type="text/css" media="all">
+
+<script type="text/javascript" src="/js/mootools.js"></script>
+<script type="text/javascript" src="/js/fancyupload/source/Swiff.Uploader.js"></script>
+<script type="text/javascript" src="/js/fancyupload/source/Fx.ProgressBar.js"></script>
+<script type="text/javascript" src="/js/fancyupload/source/FancyUpload2.js"></script>
+
+<script src="/js/fancyupload/script.js" type="text/javascript"></script>
+
+	<div id="langtabs">
+		<ul>
+			{foreach from=$admin->languages item=lang key=lang_id}
+				<li><a href="#lang-{$lang_id}">{$lang.title}</a></li>
+			{/foreach}
+				<li><a href="#upload-form"><b>+ Загрузить фото</b></a></li>
+		</ul>
+		
+		<form name="photos" method="post">
+		{foreach from=$admin->languages item=lang key=lang_id}
+			<div id="lang-{$lang_id}">
+				<table class="table gallery_photos" width="100%">
+					<thead>
+						<tr>
+							<td width="1%">#</td>
+							<td width="1%">1</td>
+							<td>Описание</td>
+							<td width="1%"></td>
+						</tr>
+					</thead>
+					<tbody>
+					{$num=1}
+					{foreach from=$photos item=photo key=photo_master_id}
+					<tr>
+						<td>{$num}</td>
+						<td><a class="thumb" target="_blank" href="{$admin->gallery_path}{$photo.file}" style="background:url({$admin->gallery_thumbs_path}{$photo.file}) no-repeat center center"></a></td>
+						<td><textarea class="description" name="item[{$lang_id}][{$photo_master_id}][description]">{$photo.ext[$lang_id].description}</textarea></td>
+						<td><a class="drop" href="?section={$admin->section}&gAction=drop_photo&photo_master_id={$photo_master_id}&album_id={$smarty.get.album_id}&structure_master_id={$smarty.get.structure_master_id}"></a></td>
+					</tr>
+					{assign var='num' value=$num+1}
+					{/foreach}
+					</tbody>
+				</table>
+			</div>
+		{/foreach}
+		<input type="hidden" name="pAction" value="update_album_photos" />
+		</form>
+			<div id="upload-form">
+					<h1>Выберите фото для загрузки</h1>
+					<div>
+					
+						<form action="/js/fancyupload/server/script.php?album_id={$smarty.get.album_id}" method="post" enctype="multipart/form-data" id="form-demo" album_id="{$smarty.get.album_id}">
+							
+							<fieldset id="demo-fallback">
+								<legend>File Upload</legend>
+								<p>
+								This form is just an example fallback for the unobtrusive behaviour of FancyUpload.
+								If this part is not changed, something must be wrong with your code.
+								</p>
+								<label for="demo-photoupload">
+								Upload a Photo:
+								<input type="file" name="Filedata" />
+								</label>
+							</fieldset>
+							
+							<div id="demo-status" class="hide">
+								<p>
+								<a href="#" id="demo-browse" style="color:red">Выбрать файлы</a> |
+								<a href="#" id="demo-clear">Очистить список</a> |
+								<a href="#" id="demo-upload">Начать загрузку</a>
+								</p>
+								<div>
+								<strong class="overall-title"></strong><br />
+								<img src="/js/fancyupload/assets/progress-bar/bar.gif" class="progress overall-progress" />
+								</div>
+								<div>
+								<strong class="current-title"></strong><br />
+								<img src="/js/fancyupload/assets/progress-bar/bar.gif" class="progress current-progress" />
+								</div>
+								<div class="current-text"></div>
+							</div>
+							
+							<ul id="demo-list"></ul>
+						</form>	
+					
+					</div>
+			</div><!-- #upload-form -->
+	</div>
+<div class="langtab_div">
+	<button type="button" onclick="document.forms.photos.submit()">сохранить изменения</button>
+</div>

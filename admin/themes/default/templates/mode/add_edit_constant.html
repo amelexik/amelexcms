@@ -1,0 +1,40 @@
+<form method="post">
+	<p>Добавить новую константу в групу <b>&laquo;{$group_title}&raquo;</b></p>
+	<div id="langtabs">
+		<ul>
+			{foreach from=$admin->languages item=lang key=lang_id}
+				<li><a href="#lang-{$lang_id}">{$lang.title}</a></li>
+			{/foreach}
+		</ul>
+		
+		<div class="langtab_div">
+			<table class="form-table">
+				<tr>
+					<td width="150"><label for="title"><b>Титл:</b></label></td>
+					<td><input type="text" name="item[title]" id="title" value="" /></td>
+				</tr>
+				<tr>
+					<td><label for="name">Системное название:</label></td>
+					<td><input type="text" name="item[name]" id="name" value="" /></td>
+				</tr>
+			</table>
+		</div>
+		
+		{foreach from=$admin->languages item=lang key=lang_id}
+		<div class="langtab_div" id="lang-{$lang_id}">
+			<table class="form-table">
+				<tr>
+					<td width="150"><label for="value_{$lang_id}">Значение:</label></td>
+					<td><input type="text" name="item[{$lang_id}][value]" id="value_{$lang_id}" value="" /></td>
+				</tr>
+			</table>
+		</div>
+		{/foreach}
+		
+		<div class="langtab_div">
+			<input type="hidden" name="pAction" value="add_constant" />
+			<button class="button" type="submit">Добавить константу</button>
+		</div>
+		
+	</div>
+</form>

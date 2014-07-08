@@ -1,0 +1,11 @@
+{if $app->branchKeys[0] == 1}
+	{if $app->branchKeysCount == 2}
+		{include file="car_models.html"}
+	{/if}
+	{if $app->branchKeys[2] > 0}
+		{include file="form_for_online_chat.html"}
+	{/if}
+{/if}
+<div class="page">
+{$content}
+</div>

@@ -1,0 +1,51 @@
+{if $admin->mode == ''}
+<p><a class="button" onclick="history.back()">&laquo; назад </a> <a class="button" href="?section={$admin->section}&mode=add_edit_structure_item&parent_id={$smarty.get.parent_id}">добавить раздел</a></p>
+<div id="langtabs">
+	<ul>
+		{foreach from=$admin->languages item=lang key=lang_id}
+			<li><a href="#lang-{$lang_id}">{$lang.title}</a></li>
+		{/foreach}
+	</ul>
+	
+	{foreach from=$admin->languages item=lang key=lang_id}
+		<div id="lang-{$lang_id}">
+		<table class="table structure sortable" width="100%">
+			<thead>
+				<tr>
+					<td width="1%">#</td>
+					<td>Название раздела</td>
+					<td width="1%">add date</td>
+					<td width="1%">шаблон</td>
+					
+					
+					
+					{* <td width="1%">last update дата последнего обновления </td> *}
+					<td width="1%" colspan="3">Действие</td>
+				</tr>
+			</thead>
+			<tbody>
+				{foreach from=$structure item=structureItem}
+				<tr id="id_{$structureItem.id}" class="display-{$structureItem.ext[$lang_id].display}">
+					<td>{$structureItem.sorting}</td>
+					<td>
+						<p><a href="?section=structure&parent_id={$structureItem.id}">{$structureItem.ext[$lang_id].name}</a></p>
+						<p><small>ссылка: <a class="grey" target="_blank" href="{$structureItem.ext[$lang_id].url}">{$structureItem.ext[$lang_id].url}</a></p>
+					</td>
+					<td align="center" valign="middle"><small>{$structureItem.add_date|date_format:"%H:%M:%S"}<br />{$structureItem.add_date|date_format:"%d.%b.%Y"}</small></td>
+					<td width="1%">{$admin->templates[$structureItem.template]}</td>
+					
+					{* дата последнего обновления <td align="center" valign="middle"><small>{$structureItem.up_date|date_format:"%H:%M:%S"}<br />{$structureItem.up_date|date_format:"%d.%b.%Y"}</small></td> *}
+					<td><a title="Редактировать контент страницы" class="edit" href="{$structureItem.edit_url}"></a></td>
+					<td><a title="Редактировать свойства раздела" class="property" href="?section={$admin->section}&mode=add_edit_structure_item&structure_item_id={$structureItem.id}&parent_id={$smarty.get.parent_id}"></a></td>
+					<td><a title="Удалить раздел с внутренними подразделами?" class="drop" href="?section={$admin->section}&gAction=dropStructureItem&id={$structureItem.id}&parent_id={$parent_id}"></a></td>
+				</tr>
+				{/foreach}
+			</tbody>
+		</table>
+		</div>
+	{/foreach}
+</div>
+{else}
+	{capture name='mode_file'}mode/{$admin->mode}.html{/capture}
+	{include file=$smarty.capture.mode_file}
+{/if}
